@@ -3,6 +3,9 @@ const RunnerGame = (function(){
   'use strict';
   
   let canvas, ctx, raf;
+  let spriteRun = new Image();
+  let spriteJump = new Image();
+  let spritesLoaded = false;
   let gameState = 'idle';
   let lives = 3;
   let time = 0;
@@ -42,6 +45,18 @@ const RunnerGame = (function(){
     }
 
     resize();
+    
+    // Load player sprites
+    spriteRun.src = 'assets/images/glazka_run.png';
+    spriteJump.src = 'assets/images/glazka_jump.png';
+    
+    let loadedCount = 0;
+    const onSpriteLoad = () => {
+      loadedCount++;
+      if (loadedCount === 2) spritesLoaded = true;
+    };
+    spriteRun.onload = onSpriteLoad;
+    spriteJump.onload = onSpriteLoad;
     
     canvas.addEventListener('pointerdown', onJump);
     canvas.addEventListener('touchstart', onJump, {passive: false});
@@ -301,12 +316,14 @@ const RunnerGame = (function(){
 
   function drawPlayer(){
     const px = 50;
-    const py = groundY - 45 + playerY;
+    const py = groundY - 85 + playerY;
+    const spriteW = 85;
+    const spriteH = 100;
     
     // Тень
     ctx.fillStyle = 'rgba(0,0,0,0.3)';
     ctx.beginPath();
-    ctx.ellipse(px + 20, groundY, 18, 4, 0, 0, Math.PI*2);
+    ctx.ellipse(px + spriteW/2, groundY, 35, 6, 0, 0, Math.PI*2);
     ctx.fill();
     
     // Щит (если активен)
@@ -314,50 +331,40 @@ const RunnerGame = (function(){
       ctx.strokeStyle = 'rgba(59, 130, 246, 0.6)';
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.arc(px + 20, py + 20, 28, 0, Math.PI*2);
+      ctx.arc(px + spriteW/2, py + spriteH/2, 55, 0, Math.PI*2);
       ctx.stroke();
       
       // Пульсация щита
       const pulse = Math.sin(Date.now() / 100) * 3;
       ctx.strokeStyle = 'rgba(59, 130, 246, 0.3)';
       ctx.beginPath();
-      ctx.arc(px + 20, py + 20, 28 + pulse, 0, Math.PI*2);
+      ctx.arc(px + spriteW/2, py + spriteH/2, 55 + pulse, 0, Math.PI*2);
       ctx.stroke();
     }
     
-    // Тело (анимация бега)
-    const bounce = Math.sin(time * 0.3) * 3;
-    ctx.fillStyle = '#f59e0b';
-    ctx.beginPath();
-    ctx.arc(px + 20, py + 20 + bounce, 18, 0, Math.PI*2);
-    ctx.fill();
+    // Выбор спрайта: прыжок или бег
+    const currentSprite = (jump > 0) ? spriteJump : spriteRun;
     
-    // Глаз
-    ctx.fillStyle = '#fff';
-    ctx.beginPath();
-    ctx.arc(px + 20, py + 20 + bounce, 10, 0, Math.PI*2);
-    ctx.fill();
+    // Анимация отскока только при беге
+    const bounce = (jump === 0) ? Math.sin(time * 0.3) * 4 : 0;
     
-    ctx.fillStyle = '#7c3aed';
-    ctx.beginPath();
-    ctx.arc(px + 20, py + 20 + bounce, 5, 0, Math.PI*2);
-    ctx.fill();
-    
-    // Блик в глазу
-    ctx.fillStyle = '#fff';
-    ctx.beginPath();
-    ctx.arc(px + 22, py + 18 + bounce, 2, 0, Math.PI*2);
-    ctx.fill();
-    
-    // Плащ (анимация)
-    const capeWave = Math.sin(time * 0.2) * 5;
-    ctx.fillStyle = '#ef4444';
-    ctx.beginPath();
-    ctx.moveTo(px + 20, py + 20 + bounce);
-    ctx.lineTo(px - 5 + capeWave, py + 50);
-    ctx.lineTo(px + 45 + capeWave, py + 50);
-    ctx.closePath();
-    ctx.fill();
+    if (spritesLoaded && currentSprite.complete) {
+      ctx.drawImage(
+        currentSprite,
+        px,
+        py + bounce,
+        spriteW,
+        spriteH
+      );
+    } else {
+      // Fallback: отрисовка placeholder если спрайт не загружен
+      ctx.fillStyle = '#f59e0b';
+      ctx.fillRect(px, py + bounce, spriteW, spriteH);
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 12px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('👁️', px + spriteW/2, py + spriteH/2 + bounce);
+    }
   }
 
   function drawPixel(){
@@ -502,9 +509,9 @@ const RunnerGame = (function(){
     
     // Update and draw bonuses
     const px = 50;
-    const py = groundY - 45 + playerY;
-    const pw = 36;
-    const ph = 45;
+    const py = groundY - 85 + playerY;
+    const pw = 85;
+    const ph = 100;
     
     for (let i = bonuses.length - 1; i >= 0; i--) {
       let b = bonuses[i];
