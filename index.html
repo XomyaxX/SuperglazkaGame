@@ -593,6 +593,100 @@
   <button class="win-btn" onclick="closeWinContinue()">Продолжить ➜</button>
 </div>
 
+<!-- Runner Stats Overlay -->
+<div class="overlay" id="runner-stats-overlay">
+  <div class="stats-title">🏃 Погоня завершена!</div>
+  
+  <div class="win-stars" style="margin: 10px 0;">
+    <span class="win-star" id="runner-star-1">⭐</span>
+    <span class="win-star" id="runner-star-2">⭐</span>
+    <span class="win-star" id="runner-star-3">⭐</span>
+  </div>
+  
+  <div class="stats-card">
+    <div class="stats-time" id="runner-stats-time">⏱️ Время: 0:00</div>
+    
+    <div class="stats-section">
+      <h3>❤️ Жизни</h3>
+      <div class="stat-row">
+        <span>Осталось жизней:</span>
+        <span class="stat-value" id="runner-stats-lives">3/3</span>
+      </div>
+    </div>
+    
+    <div class="stats-section">
+      <h3>💎 Бонусы</h3>
+      <div class="stat-row">
+        <span>Собрано:</span>
+        <span class="stat-value" id="runner-stats-bonuses">0</span>
+      </div>
+    </div>
+    
+    <div class="stats-section">
+      <h3>🎯 Результат</h3>
+      <div class="stat-row">
+        <span>Дистанция:</span>
+        <span class="stat-value">2000м</span>
+      </div>
+      <div class="stat-row">
+        <span>Статус:</span>
+        <span class="stat-value" id="runner-stats-status">Победа!</span>
+      </div>
+    </div>
+    
+    <div class="total-score" id="runner-total-score">
+      🏆 Оценка: ⭐⭐⭐
+    </div>
+  </div>
+  
+  <button class="tr-btn" onclick="showRunnerRegistration()" style="margin-top: 20px;">
+    Продолжить ➜
+  </button>
+</div>
+
+<!-- Runner Registration Overlay -->
+<div class="overlay" id="runner-registration-overlay">
+  <div class="reg-title">🌟 Стань частью команды!</div>
+  
+  <div class="reg-card">
+    <div class="reg-description">
+      Зарегистрируйся, чтобы:<br>
+      ✨ Сохранить свой прогресс<br>
+      🏅 Получать награды за победы<br>
+      📖 Открыть следующую серию комикса<br>
+      🎮 Участвовать в соревнованиях
+    </div>
+    
+    <form class="reg-form" id="runner-reg-form">
+      <input type="text" 
+             class="reg-input" 
+             id="runner-reg-nickname"
+             placeholder="Придумай никнейм" 
+             required
+             maxlength="20">
+      
+      <input type="email" 
+             class="reg-input" 
+             id="runner-reg-email"
+             placeholder="Email родителя" 
+             required>
+      
+      <label class="reg-checkbox">
+        <input type="checkbox" id="runner-reg-confirm" required>
+        <span>Родители разрешили играть</span>
+      </label>
+      
+      <button type="submit" class="tr-btn" style="width: 100%;">
+        🚀 Зарегистрироваться
+      </button>
+    </form>
+    
+    <button class="reg-skip" onclick="skipRunnerRegistration()">
+      Продолжить без регистрации →
+    </button>
+  </div>
+</div>
+
 <!-- Stats Overlay -->
 <div class="overlay" id="stats-overlay">
   <div class="stats-title">🎉 Отличная работа!</div>

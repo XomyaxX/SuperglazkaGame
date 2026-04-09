@@ -7,6 +7,16 @@ const RunnerGame = (function(){
   let spriteJump = new Image();
   let spritesLoaded = false;
   let gameState = 'idle';
+  
+  // Statistics tracking
+  let runnerStats = {
+    startTime: 0,
+    endTime: 0,
+    livesRemaining: 3,
+    bonusesCollected: 0,
+    totalTime: 0,
+    stars: 3
+  };
   let lives = 3;
   let time = 0;
   let dist = 0;
@@ -154,6 +164,14 @@ const RunnerGame = (function(){
     level = 1;
     warning = null;
     gameState = 'running';
+    
+    // Reset stats
+    runnerStats.startTime = Date.now();
+    runnerStats.endTime = 0;
+    runnerStats.livesRemaining = 3;
+    runnerStats.bonusesCollected = 0;
+    runnerStats.totalTime = 0;
+    runnerStats.stars = 3;
     updateUI();
     if (raf) cancelAnimationFrame(raf);
     loop();
@@ -522,6 +540,7 @@ const RunnerGame = (function(){
       if (px < b.x + b.w && px + pw > b.x && py < b.y + b.h && py + ph > b.y) {
         if (b.type === 'heart' && lives < 3) {
           lives++;
+          runnerStats.livesRemaining = lives;
           addParticles(b.x, b.y, '#22c55e', 12);
         } else if (b.type === 'star') {
           speedBoost = 0.5;
@@ -531,6 +550,7 @@ const RunnerGame = (function(){
           shieldTimer = 300; // 5 секунд
           addParticles(b.x, b.y, '#3b82f6', 12);
         }
+        runnerStats.bonusesCollected++;
         bonuses.splice(i, 1);
         updateUI();
         continue;
@@ -564,6 +584,7 @@ const RunnerGame = (function(){
         }
         obstacles.splice(i, 1);
         lives--;
+        runnerStats.livesRemaining = lives;
         updateUI();
         
         // Flash effect
@@ -572,13 +593,28 @@ const RunnerGame = (function(){
         
         if (lives <= 0) {
           gameState = 'lost';
+          runnerStats.endTime = Date.now();
+          runnerStats.totalTime = runnerStats.endTime - runnerStats.startTime;
+          runnerStats.livesRemaining = 0;
+          runnerStats.stars = 0;
+          
+          // Store stats globally for registration
+          window.lastRunnerStats = {...runnerStats};
+          
           setTimeout(function() {
-            window.showWinOverlay('Упс!', 'Пикселёк ускользнул.<br><br>Попробуй ещё раз!');
-            const btn = document.querySelector('#win-overlay .win-btn');
+            window.hideOverlay('game-overlay-runner');
+            showRunnerStats();
+            
+            // Update status to "Поражение"
+            const statusEl = document.getElementById('runner-stats-status');
+            if (statusEl) statusEl.textContent = 'Попробуй ещё раз!';
+            
+            // Change button to restart
+            const btn = document.querySelector('#runner-stats-overlay .tr-btn');
             if (btn) {
-              btn.textContent = '🔄 Ещё раз';
+              btn.textContent = '🔄 Попробовать снова';
               btn.onclick = function() {
-                window.hideOverlay('win-overlay');
+                window.hideOverlay('runner-stats-overlay');
                 reset();
               };
             }
@@ -628,14 +664,28 @@ const RunnerGame = (function(){
     
     if (dist >= targetDist) {
       gameState = 'won';
+      runnerStats.endTime = Date.now();
+      runnerStats.totalTime = runnerStats.endTime - runnerStats.startTime;
+      runnerStats.livesRemaining = lives;
+      
+      // Calculate stars (3 stars = perfect, 2 stars = good, 1 star = passed)
+      // 3 stars: all lives + collected bonuses
+      // 2 stars: 2+ lives OR collected bonuses
+      // 1 star: passed with 1 life
+      if (lives === 3 && runnerStats.bonusesCollected >= 2) {
+        runnerStats.stars = 3;
+      } else if (lives >= 2 || runnerStats.bonusesCollected >= 1) {
+        runnerStats.stars = 2;
+      } else {
+        runnerStats.stars = 1;
+      }
+      
+      // Store stats globally for registration
+      window.lastRunnerStats = {...runnerStats};
+      
       setTimeout(function() {
         window.hideOverlay('game-overlay-runner');
-        window.showWinOverlay('Пойман!', 'Суперглазка догнала Пикселька!<br>Теперь — в Мир Глазки!');
-        const btn = document.querySelector('#win-overlay .win-btn');
-        if (btn) {
-          btn.textContent = 'Продолжить ➜';
-          btn.onclick = window.closeWinContinue;
-        }
+        showRunnerStats();
       }, 400);
       return;
     }
@@ -657,6 +707,80 @@ const RunnerGame = (function(){
       window.closeWinContinue();
     }
   };
+  
+  // Show runner game statistics
+  function showRunnerStats() {
+    const overlay = document.getElementById('runner-stats-overlay');
+    if (!overlay) return;
+    
+    // Format time
+    const totalSeconds = Math.floor(runnerStats.totalTime / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    const timeStr = `${minutes}:${String(seconds).padStart(2, '0')}`;
+    
+    // Fill data
+    const timeEl = document.getElementById('runner-stats-time');
+    if (timeEl) timeEl.textContent = `⏱️ Время: ${timeStr}`;
+    
+    const livesEl = document.getElementById('runner-stats-lives');
+    if (livesEl) livesEl.textContent = `${runnerStats.livesRemaining}/3`;
+    
+    const bonusesEl = document.getElementById('runner-stats-bonuses');
+    if (bonusesEl) bonusesEl.textContent = runnerStats.bonusesCollected;
+    
+    // Reset status text for victory
+    const statusEl = document.getElementById('runner-stats-status');
+    if (statusEl) statusEl.textContent = 'Победа!';
+    
+    // Reset button for victory (go to registration)
+    const btn = document.querySelector('#runner-stats-overlay .tr-btn');
+    if (btn) {
+      btn.textContent = 'Продолжить ➜';
+      btn.onclick = window.showRunnerRegistration;
+    }
+    
+    // Show stars
+    for (let i = 1; i <= 3; i++) {
+      const starEl = document.getElementById(`runner-star-${i}`);
+      if (starEl) {
+        starEl.style.opacity = i <= runnerStats.stars ? '1' : '0.3';
+        starEl.style.filter = i <= runnerStats.stars ? 'grayscale(0)' : 'grayscale(1)';
+      }
+    }
+    
+    const scoreEl = document.getElementById('runner-total-score');
+    if (scoreEl) {
+      scoreEl.textContent = '🏆 Оценка: ' + '⭐'.repeat(runnerStats.stars);
+    }
+    
+    overlay.classList.add('visible');
+  }
+  
+  window.showRunnerStats = showRunnerStats;
+  
+  // Registration functions
+  window.showRunnerRegistration = function() {
+    const statsOverlay = document.getElementById('runner-stats-overlay');
+    if (statsOverlay) statsOverlay.classList.remove('visible');
+    
+    const regOverlay = document.getElementById('runner-registration-overlay');
+    if (regOverlay) regOverlay.classList.add('visible');
+  };
+  
+  window.skipRunnerRegistration = function() {
+    const regOverlay = document.getElementById('runner-registration-overlay');
+    if (regOverlay) regOverlay.classList.remove('visible');
+    
+    window.closeWinContinue();
+  };
+  
+  window.finishRunnerRegistration = function() {
+    const regOverlay = document.getElementById('runner-registration-overlay');
+    if (regOverlay) regOverlay.classList.remove('visible');
+    
+    window.closeWinContinue();
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
@@ -666,3 +790,60 @@ const RunnerGame = (function(){
   
   return { init, reset };
 })();
+
+// Registration form handler for runner game (outside IIFE to access DOM)
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('runner-reg-form');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const nickname = document.getElementById('runner-reg-nickname').value;
+      const email = document.getElementById('runner-reg-email').value;
+      
+      // Get runner stats from the game (we'll store it globally when game ends)
+      const runnerStats = window.lastRunnerStats || {
+        stars: 0,
+        livesRemaining: 0,
+        bonusesCollected: 0,
+        totalTime: 0
+      };
+      
+      // Save to localStorage
+      const progress = {
+        nickname: nickname,
+        email: email,
+        runnerStats: runnerStats,
+        achievements: ['Поймал Пикселька!', 'Защитник стола'],
+        registeredAt: new Date().toISOString()
+      };
+      
+      // Merge with existing progress if any
+      const existing = localStorage.getItem('superglazka_progress');
+      if (existing) {
+        const parsed = JSON.parse(existing);
+        Object.assign(progress, parsed);
+      }
+      
+      localStorage.setItem('superglazka_progress', JSON.stringify(progress));
+      
+      // Show success message
+      const card = document.querySelector('#runner-registration-overlay .reg-card');
+      if (card) {
+        card.innerHTML = `
+          <div class="reg-success">
+            <div class="reg-success-icon">🎉</div>
+            <div class="reg-success-title">Добро пожаловать, ${nickname}!</div>
+            <div class="reg-success-text">
+              Твой прогресс сохранён!<br>
+              Теперь ты часть команды Суперглазки!
+            </div>
+            <button class="tr-btn" onclick="finishRunnerRegistration()" style="margin-top: 24px; width: 100%;">
+              Продолжить приключение ➜
+            </button>
+          </div>
+        `;
+      }
+    });
+  }
+});
