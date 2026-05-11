@@ -74,520 +74,136 @@
   <div class="frame-counter">Кадр 1 из 12</div>
   <button class="back-btn" title="Назад в меню">←</button>
 
-  <!-- ═══ КАДР 1: Планета Видеаль в космосе ═══ -->
-  <div class="frame" data-index="0">
-    <!-- Фон: заглушка для изображения. ЗАМЕНИТЬ: assets/images/episode1/frame1.jpg -->
-    <div class="frame-bg blurred" style="background: radial-gradient(ellipse at 50% 50%, #312e81 0%, #1e1b4b 40%, #0f0a1e 100%);"></div>
-    <div class="frame-overlay"></div>
+  <!-- Dynamic frame container -->
+  <div id="frame-container"></div>
+</div>
 
-    <button class="audio-btn" title="Озвучка рассказчика (заглушка)">
-      <span class="audio-icon">🔊</span>
-      <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
-    </button>
-    <button class="play-clip-btn">▶ Воспроизвести отрывок</button>
+<!-- ═══════════════════════════════════════════════════════════
+     GAME TRANSITION OVERLAY
+     ═══════════════════════════════════════════════════════════ -->
+<div class="overlay" id="game-transition-overlay">
+  <div class="tr-badge"><span style="font-size:50px">🎮</span></div>
+  <div class="gt-title tr-title">Мини-игра!</div>
+  <div class="gt-sub tr-sub">Готовься к испытанию...</div>
+  <button class="gt-btn tr-btn">Играть! 🚀</button>
+</div>
 
-    <div class="narration-box">
-      <div class="narration-label">🎙️ Рассказчик</div>
-      <div class="narration-text">
-        На бескрайних просторах Вселенной, там, где даже самые мощные телескопы видят лишь россыпь далеких звёзд, скрывается удивительная планета Видеаль. Она такая крошечная, что могла бы уместиться на ладони самого маленького великана, но такая важная, что без неё жизнь многих детей на Земле стала бы гораздо сложнее.
-        <br><br>
-        Видеаль — это гармония природы и населяющих планету жителей. Они понимают язык животных и относятся к ним как к равным. Здесь козы работают журналистами, а лошади занимаются садоводством и собирают полезные травы, из которых видеаляне делают чудодейственные лекарства. Здесь текут реки с прозрачной целебной питьевой водой, в лесах растут деревья с магическими плодами, а на лугах распускаются удивительные чудотворные цветы, которые не встречаются ни на одной другой планете.
-      </div>
-    </div>
+<!-- ═══════════════════════════════════════════════════════════
+     RUNNER GAME OVERLAYS (legacy compatibility)
+     ═══════════════════════════════════════════════════════════ -->
+<div class="overlay" id="tr-overlay-runner">
+  <div class="tr-badge"><span style="font-size:50px">🏃</span></div>
+  <div class="tr-title">Мини-игра!</div>
+  <div class="tr-sub">Помоги Суперглазке догнать Пикселька на столе!<br>Уворачивайся от посуды.</div>
+  <button class="tr-btn" onclick="startRunnerGame()">Играть! 🚀</button>
+</div>
 
-    <!-- ВИДЕО ЗАГЛУШКА. ЗАМЕНИТЬ: assets/videos/episode1/frame1.mp4 -->
-    <div class="video-container">
-      <div class="video-placeholder">
-        <div class="ph-icon">🎬</div>
-        <div class="ph-text">Видео: Планета Видеаль</div>
-        <div class="ph-note">В бескрайнем космосе парит яркая неоновая планета, из её центра постепенно усиливается пульсирующее свечение, камера делает медленный плавный наезд к планете за 10 секунд.</div>
-      </div>
-    </div>
-
-    <div class="dialogues-container">
-      <!-- Диалогов нет -->
-    </div>
-
-    <div class="next-frame-panel">
-      <div class="next-frame-text">Населяют Видеаль удивительные жители — невысокого роста, с огромными голубыми глазами, густыми ресницами, шёлковыми кудряшками, из которых торчат забавные круглые ушки.</div>
-      <button class="next-frame-btn">Следующий кадр →</button>
-    </div>
+<div class="overlay" id="game-overlay-runner">
+  <div class="game-header">
+    <div class="score-pill"><span class="score-lbl">Уровень</span><span class="score-val" id="runner-time">1</span></div>
+    <div class="lives-val" id="runner-lives">❤️❤️❤️</div>
   </div>
-
-  <!-- ═══ КАДР 2: Жизнь на Видеале ═══ -->
-  <div class="frame" data-index="1">
-    <div class="frame-bg blurred" style="background: radial-gradient(ellipse at 50% 80%, #4c1d95 0%, #1a0f2e 60%, #0a0618 100%);"></div>
-    <div class="frame-overlay"></div>
-
-    <button class="audio-btn" title="Озвучка рассказчика (заглушка)">
-      <span class="audio-icon">🔊</span>
-      <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
-    </button>
-    <button class="play-clip-btn">▶ Воспроизвести отрывок</button>
-
-    <div class="narration-box">
-      <div class="narration-label">🎙️ Рассказчик</div>
-      <div class="narration-text">
-        Населяют Видеаль удивительные жители — невысокого роста, с огромными голубыми глазами, густыми ресницами, шёлковыми кудряшками, из которых торчат забавные круглые ушки. Но главное — у них самые добрые сердца во всей вселенной!
-        <br><br>
-        Здесь каждый посвящает себя только одной миссии: следить за здоровьем детей планеты Земля, а в особенности, за их зрением. Ведь с помощью глаз человек получает 90 процентов информации из окружающего мира! И, чем лучше ребенок будет заботиться о своем зрении с самого детства, тем ярче будет его жизнь, когда он станет взрослым.
-      </div>
+  <canvas id="runner-canvas" width="360" height="480"></canvas>
+  <div class="runner-controls">
+    <div class="runner-hint">👆 ТАП = прыжок · Два тапа = двойной прыжок</div>
+    <div class="runner-stats">
+      <div class="runner-stat"><div class="runner-stat-val">💚</div><div class="runner-stat-lbl">+жизнь</div></div>
+      <div class="runner-stat"><div class="runner-stat-val">⭐</div><div class="runner-stat-lbl">медленно</div></div>
+      <div class="runner-stat"><div class="runner-stat-val">🛡️</div><div class="runner-stat-lbl">щит</div></div>
     </div>
-
-    <div class="video-container">
-      <div class="video-placeholder">
-        <div class="ph-icon">🎬</div>
-        <div class="ph-text">Видео: Жизнь на Видеале</div>
-        <div class="ph-note">Персонажи стоят в центре мощёной средневековой улицы, дружелюбно улыбаются и поочерёдно машут руками, камера мягко приближается к группе за 10 секунд.</div>
-      </div>
-    </div>
-
-    <div class="dialogues-container"></div>
-
-    <div class="next-frame-panel">
-      <div class="next-frame-text">На планете есть ещё много других полезных изобретений и чудодейственных снадобий, которые помогают жить ярче и веселее.</div>
-      <button class="next-frame-btn">Следующий кадр →</button>
-    </div>
+    <button onclick="closeRunner(false)" style="background:none;border:1px solid rgba(255,255,255,.2);border-radius:30px;color:rgba(255,255,255,.5);padding:10px 28px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Пропустить</button>
   </div>
+</div>
 
-  <!-- ═══ КАДР 3: Угроза Великой Тьмы (очки) ═══ -->
-  <div class="frame" data-index="2">
-    <div class="frame-bg blurred" style="background: radial-gradient(circle at 50% 50%, #1e3a5f 0%, #0f172a 50%, #0a0618 100%);"></div>
-    <div class="frame-overlay"></div>
-
-    <button class="audio-btn" title="Озвучка рассказчика (заглушка)">
-      <span class="audio-icon">🔊</span>
-      <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
-    </button>
-    <button class="play-clip-btn">▶ Воспроизвести отрывок</button>
-
-    <div class="narration-box">
-      <div class="narration-label">🎙️ Рассказчик</div>
-      <div class="narration-text">
-        На планете есть ещё много других полезных изобретений и чудодейственных снадобий, которые помогают жить ярче и веселее. Именно жители планеты Видеаль создали необыкновенные очки. Они предупреждают об опасности и шепчут мальчикам и девочкам: «Отодвинь книгу подальше, сядь прямо, не сутулься, сделай перерыв».
-      </div>
-    </div>
-
-    <div class="video-container">
-      <div class="video-placeholder">
-        <div class="ph-icon">🎬</div>
-        <div class="ph-text">Видео: Волшебные очки</div>
-        <div class="ph-note">В 10-секундном кадре показаны стильные очки, парящие над мягкой бархатной подушкой в тёмном фиолетовом космосе; вокруг оправы медленно кружатся и переливаются мягким светом крошечные частицы и искры.</div>
-      </div>
-    </div>
-
-    <div class="dialogues-container"></div>
-
-    <div class="next-frame-panel">
-      <div class="next-frame-text">Но скромные и воспитанные видеаляне не всесильны. Однажды, вокруг их планеты стало сгущаться Великое Зло.</div>
-      <button class="next-frame-btn">Следующий кадр →</button>
-    </div>
+<div class="overlay" id="runner-stats-overlay">
+  <div class="stats-title">🏃 Погоня завершена!</div>
+  <div class="win-stars" style="margin:10px 0;">
+    <span class="win-star" id="runner-star-1">⭐</span>
+    <span class="win-star" id="runner-star-2">⭐</span>
+    <span class="win-star" id="runner-star-3">⭐</span>
   </div>
-
-  <!-- ═══ КАДР 3.5: Угроза Великой Тьмы (тучи) ═══ -->
-  <div class="frame" data-index="3">
-    <div class="frame-bg blurred" style="background: linear-gradient(180deg, #1e293b 0%, #334155 40%, #0f172a 100%);"></div>
-    <div class="frame-overlay"></div>
-
-    <button class="audio-btn" title="Озвучка рассказчика (заглушка)">
-      <span class="audio-icon">🔊</span>
-      <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
-    </button>
-    <button class="play-clip-btn">▶ Воспроизвести отрывок</button>
-
-    <div class="narration-box">
-      <div class="narration-label">🎙️ Рассказчик</div>
-      <div class="narration-text">
-        Но скромные и воспитанные видеаляне не всесильны. Однажды, вокруг их планеты стало сгущаться Великое Зло. Оно грозило поглотить Видеаль и погрузить ее в непроглядную тьму. А значит, опасность грозила и всем детям на Земле, которые могли остаться без полезных изобретений и целебных лекарств.
-      </div>
-    </div>
-
-    <div class="video-container">
-      <div class="video-placeholder">
-        <div class="ph-icon">🎬</div>
-        <div class="ph-text">Видео: Надвигающаяся тьма</div>
-        <div class="ph-note">Камера с уровня спин жителей смотрит вперёд на площадь, где люди застыли, уставившись в небо; за 10 секунд над светлым небом стремительно сгущаются тяжёлые тёмные тучи, лица людей меняются от любопытства к испугу.</div>
-      </div>
-    </div>
-
-    <div class="dialogues-container"></div>
-
-    <div class="next-frame-panel">
-      <div class="next-frame-text">Весть об этом разнеслась за считанные секунды. И жители планеты высыпали на Каменную площадь.</div>
-      <button class="next-frame-btn">Следующий кадр →</button>
-    </div>
+  <div class="stats-card">
+    <div class="stats-time" id="runner-stats-time">⏱️ Время: 0:00</div>
+    <div class="stats-section"><h3>❤️ Жизни</h3><div class="stat-row"><span>Осталось жизней:</span><span class="stat-value" id="runner-stats-lives">3/3</span></div></div>
+    <div class="stats-section"><h3>💎 Бонусы</h3><div class="stat-row"><span>Собрано:</span><span class="stat-value" id="runner-stats-bonuses">0</span></div></div>
+    <div class="stats-section"><h3>🎯 Результат</h3><div class="stat-row"><span>Дистанция:</span><span class="stat-value">2000м</span></div><div class="stat-row"><span>Статус:</span><span class="stat-value" id="runner-stats-status">Победа!</span></div></div>
+    <div class="total-score" id="runner-total-score">🏆 Оценка: ⭐⭐⭐</div>
   </div>
+  <button class="tr-btn" onclick="showRunnerRegistration()" style="margin-top:20px;">Продолжить ➜</button>
+</div>
 
-  <!-- ═══ КАДР 4: Каменная площадь ═══ -->
-  <div class="frame" data-index="4">
-    <div class="frame-bg blurred" style="background: linear-gradient(160deg, #0f766e 0%, #134e4a 30%, #0f172a 70%, #0a0618 100%);"></div>
-    <div class="frame-overlay"></div>
-
-    <button class="audio-btn" title="Озвучка рассказчика (заглушка)">
-      <span class="audio-icon">🔊</span>
-      <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
-    </button>
-    <button class="play-clip-btn">▶ Воспроизвести отрывок</button>
-
-    <div class="narration-box">
-      <div class="narration-label">🎙️ Рассказчик</div>
-      <div class="narration-text">
-        Весть об этом разнеслась за считанные секунды. И жители планеты высыпали на Каменную площадь, чтобы услышать о том, что их ждет, от самого Правителя.
-        <br><br>
-        Площадь эта находилась в лоне огромной скалы, унизанной сверкающими драгоценными камнями. С её высоты с мелодичным журчанием, словно звуки флейты, ниспадал водопад. Его бирюзовые воды впадали в озеро, на поверхности которого сновали рыбы, словно водомерки. Это место было священным. Здесь жители планеты проводили добрые магические ритуалы. А в самом воздухе царили покой и гармония.
-      </div>
-    </div>
-
-    <div class="video-container">
-      <div class="video-placeholder">
-        <div class="ph-icon">🎬</div>
-        <div class="ph-text">Видео: Каменная площадь</div>
-        <div class="ph-note">Один статичный кадр: камера на каменном пьедестале, перед ним ярко-зеленая лужайка, вдалеке горная гряда со снежными вершинами, с утёса плавно ниспадает мощный водопад, в тумане сияет мягкая двойная радуга.</div>
-      </div>
-    </div>
-
-    <div class="dialogues-container"></div>
-
-    <div class="next-frame-panel">
-      <div class="next-frame-text">Но на этот раз, к шуму водопада добавились тревожные звуки.</div>
-      <button class="next-frame-btn">Следующий кадр →</button>
-    </div>
+<div class="overlay" id="runner-registration-overlay">
+  <div class="reg-title">🌟 Стань частью команды!</div>
+  <div class="reg-card">
+    <div class="reg-description">Зарегистрируйся, чтобы:<br>✨ Сохранить свой прогресс<br>🏅 Получать награды за победы<br>📖 Открыть следующую серию комикса<br>🎮 Участвовать в соревнованиях</div>
+    <form class="reg-form" id="runner-reg-form">
+      <input type="text" class="reg-input" id="runner-reg-nickname" placeholder="Придумай никнейм" required maxlength="20">
+      <input type="email" class="reg-input" id="runner-reg-email" placeholder="Email родителя" required>
+      <label class="reg-checkbox"><input type="checkbox" id="runner-reg-confirm" required><span>Родители разрешили играть</span></label>
+      <button type="submit" class="tr-btn" style="width:100%;">🚀 Зарегистрироваться</button>
+    </form>
+    <button class="reg-skip" onclick="skipRunnerRegistration()">Продолжить без регистрации →</button>
   </div>
+</div>
 
-  <!-- ═══ КАДР 5: Мудрый Хрусталик и Советник ═══ -->
-  <div class="frame" data-index="5">
-    <div class="frame-bg blurred" style="background: radial-gradient(ellipse at 40% 60%, #4338ca 0%, #1e1b4b 50%, #0a0618 100%);"></div>
-    <div class="frame-overlay"></div>
+<!-- ═══════════════════════════════════════════════════════════
+     GYM GAME OVERLAYS (legacy compatibility)
+     ═══════════════════════════════════════════════════════════ -->
+<div class="overlay" id="tr-overlay-gym">
+  <div class="tr-badge"><span style="font-size:50px">⚔️</span></div>
+  <div class="tr-title">Ваня против Ленивуса!</div>
+  <div class="tr-sub">Помоги Ване победить Ленивуса!<br>Используй три супер-атаки: Лазер, Прицел и Слёзы.</div>
+  <button class="tr-btn" onclick="startGymGame()">В бой! 🚀</button>
+</div>
 
-    <button class="audio-btn" title="Озвучка рассказчика (заглушка)">
-      <span class="audio-icon">🔊</span>
-      <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
-    </button>
-    <button class="play-clip-btn">▶ Воспроизвести отрывок</button>
-
-    <div class="narration-box">
-      <div class="narration-label">🎙️ Рассказчик</div>
-      <div class="narration-text">
-        Но на этот раз, к шуму водопада добавились тревожные звуки. Это видеаляне переминались с ноги на ногу, перешёптывались и перебрасывались догадками о том, какая их постигнет беда.
-        <br><br>
-        Наконец из толпы вышел Правитель планеты — Мудрый Хрусталик. Высокий, статный человек с совершенно обычными ушами, прямыми седыми волосами и едва заметным шрамом на щеке. Когда-то он прибыл сюда с планеты Земля. Жители Видеаля оценили его ум, храбрость и доброту и тут же упросили его стать их королем.
-        <br><br>
-        За ним следовал его помощник — Советник. Высокий и худой, он то и дело путался в длинной тёмно-зелёной профессорской мантии и беспрестанно поправлял монокль и академическую шапочку.
-      </div>
-    </div>
-
-    <div class="video-container">
-      <div class="video-placeholder">
-        <div class="ph-icon">🎬</div>
-        <div class="ph-text">Видео: Мудрый Хрусталик</div>
-        <div class="ph-note">Мудрый Хрусталик торжественно поднимается по ступеням на возвышение, посох светится, мантия развевается, Советник за ним запинается о край мантии, поправляет монокль, толпа тихонько хихикает.</div>
-      </div>
-    </div>
-
-    <div class="dialogues-container"></div>
-
-    <div class="next-frame-panel">
-      <div class="next-frame-text">Мудрый Хрусталик поднялся на возвышение и глубоко вдохнул свежий горный воздух.</div>
-      <button class="next-frame-btn">Следующий кадр →</button>
-    </div>
+<div class="overlay" id="game-overlay-gym">
+  <video class="boss-bg-video" id="boss-video" autoplay muted loop playsinline preload="auto">
+    <source src="assets/videos/lenivus.mp4" type="video/mp4">
+    <img src="assets/images/lenivus.png" class="boss-bg-video" alt="Ленивус">
+  </video>
+  <div class="boss-overlay-darken"></div>
+  <div class="gym-header-new">
+    <div class="boss-hp-display"><span class="boss-label">👁️ ЛЕНИВУС</span><div class="boss-hp-bar-large"><div class="boss-hp-fill-large" id="boss-hp-fill" style="width:100%"></div></div></div>
+    <div class="rays-counter-new"><span class="rays-label">Лучики</span><span class="rays-icons" id="gym-rays">⚪⚪⚪</span></div>
   </div>
+  <div class="player-vanya" id="player-vanya"><img src="assets/images/Vanya.png" alt="Ваня"><div class="player-charge-indicator" id="player-charge"></div></div>
+  <div class="attack-effects" id="attack-effects"></div>
+  <div class="phase-controls" id="phase-container"></div>
+  <button class="skip-btn" onclick="closeGym(false)">Пропустить ▸</button>
+</div>
 
-  <!-- ═══ КАДР 6: Речь Правителя ═══ -->
-  <div class="frame" data-index="6">
-    <div class="frame-bg blurred" style="background: linear-gradient(160deg, #14532d 0%, #166534 30%, #0f172a 80%, #0a0618 100%);"></div>
-    <div class="frame-overlay"></div>
+<div class="overlay" id="win-overlay">
+  <div class="win-stars"><span class="win-star">⭐</span><span class="win-star">⭐</span><span class="win-star">⭐</span></div>
+  <div class="win-title" id="win-title">Отлично!</div>
+  <div class="win-sub" id="win-sub">Ты справился!<br>Продолжение в комиксе...</div>
+  <button class="win-btn" onclick="closeWinContinue()">Продолжить ➜</button>
+</div>
 
-    <button class="audio-btn" title="Озвучка рассказчика (заглушка)">
-      <span class="audio-icon">🔊</span>
-      <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
-    </button>
-    <button class="play-clip-btn">▶ Воспроизвести отрывок</button>
-
-    <div class="narration-box">
-      <div class="narration-label">🎙️ Рассказчик</div>
-      <div class="narration-text">
-        Мудрый Хрусталик поднялся на возвышение и глубоко вдохнул свежий горный воздух. А вот Советник засмотрелся на чудесный водопад, запнулся и наступил на край мантии правителя. Толпа тихонько захихикала.
-        <br><br>
-        Советник смущенно улыбнулся, и поправил монокль, в котором отражалось бесчисленное множество видеалян.
-        <br><br>
-        Мудрый Хрусталик остановился ровно на середине возвышения. В воздухе застыло напряжение. Но каждый надеялся и верил, что мудрый правитель примет верное решение и спасет Видеаль от надвигающейся Великой Тьмы.
-        <br><br>
-        И только один маленький видеалянин не выдержал и от волнения подбросил шапку с колокольчиками. Она зазвенела и приземлилась на рог козе, которая застыла с фотоаппаратом.
-      </div>
-    </div>
-
-    <div class="video-container">
-      <div class="video-placeholder">
-        <div class="ph-icon">🎬</div>
-        <div class="ph-text">Видео: Речь Правителя</div>
-        <div class="ph-note">Король с посохом поднимается на пьедестал и обращается с речью к народу. Переход: из толпы вылетает чёрная шляпа и в плавном слоу-моушен приземляется на рог козы-фотографа.</div>
-      </div>
-    </div>
-
-    <div class="dialogues-container">
-      <div class="speech-bubble tail-bl" style="top:18%;left:6%;max-width:44%">
-        <span class="speaker hrust">Мудрый Хрусталик</span>
-        — Здравствуйте, уважаемые и досточтимые видеаляне! Рад видеть вас в здравии и благоденствии!
-      </div>
-      <div class="speech-bubble tail-br" style="top:42%;right:6%;max-width:40%">
-        <span class="speaker hrust">Мудрый Хрусталик</span>
-        — Мир Тьмы становится сильнее с каждым днем!
-      </div>
-    </div>
-
-    <div class="next-frame-panel">
-      <div class="next-frame-text">В толпе вновь послышалось тревожное перешёптывание.</div>
-      <button class="next-frame-btn">Следующий кадр →</button>
-    </div>
+<div class="overlay" id="stats-overlay">
+  <div class="stats-title">🎉 Отличная работа!</div>
+  <div class="stats-card">
+    <div class="stats-time" id="stats-time">⏱️ Время: 0:00</div>
+    <div class="stats-section"><h3>⚡ Солнечный Луч</h3><div class="stat-row"><span>Попаданий:</span><span class="stat-value" id="stats-p1-hits">0/8</span></div><div class="stat-row"><span>Точность:</span><span class="stat-value" id="stats-p1-acc">0%</span></div></div>
+    <div class="stats-section"><h3>🎯 Точный Прицел</h3><div class="stat-row"><span>Попаданий:</span><span class="stat-value" id="stats-p2-hits">0/5</span></div><div class="stat-row"><span>Среднее время наведения:</span><span class="stat-value" id="stats-p2-time">0с</span></div></div>
+    <div class="stats-section"><h3>💧 Слезный Водопад</h3><div class="stat-row"><span>Водопадов:</span><span class="stat-value" id="stats-p3-hits">0/4</span></div><div class="stat-row"><span>Всего морганий:</span><span class="stat-value" id="stats-p3-blinks">0</span></div></div>
+    <div class="total-score" id="stats-score">🏆 Общий счёт: 0</div>
   </div>
+  <button class="tr-btn" onclick="showRegistration()" style="margin-top:20px;">Продолжить ➜</button>
+</div>
 
-  <!-- ═══ КАДР 7: Ритуал Призыва ═══ -->
-  <div class="frame" data-index="7">
-    <div class="frame-bg blurred" style="background: radial-gradient(circle at 50% 50%, #7c3aed 0%, #4c1d95 40%, #0a0618 100%);"></div>
-    <div class="frame-overlay"></div>
-
-    <button class="audio-btn" title="Озвучка рассказчика (заглушка)">
-      <span class="audio-icon">🔊</span>
-      <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
-    </button>
-    <button class="play-clip-btn">▶ Воспроизвести отрывок</button>
-
-    <div class="narration-box">
-      <div class="narration-label">🎙️ Рассказчик</div>
-      <div class="narration-text">
-        В толпе вновь послышалось тревожное перешёптывание. Из ропота толпы можно было разобрать пару возгласов.
-        <br><br>
-        После его слов трое помощников внесли огромный прозрачный сосуд, внутри которого клубился разноцветный туман. Он бурлил, булькал и звонко лопал пузырями.
-        <br><br>
-        Хрусталик опустил посох в котёл и начал произносить заклинание.
-      </div>
-    </div>
-
-    <div class="video-container">
-      <div class="video-placeholder">
-        <div class="ph-icon">🎬</div>
-        <div class="ph-text">Видео: Ритуал Призыва</div>
-        <div class="ph-note">Мудрый Хрусталик опускает посох в прозрачный сосуд, туман внутри бурлит, булькал и звонко лопает пузырями, толпа плавно качается из стороны в сторону, произнося заклинание, жидкость засветилась.</div>
-      </div>
-    </div>
-
-    <div class="dialogues-container">
-      <div class="speech-bubble tail-bl" style="top:10%;left:6%;max-width:48%">
-        <span class="speaker hrust">Мудрый Хрусталик</span>
-        — Мы вынуждены обратиться к нашему святейшему ритуалу, который был забыт долгие годы. Ведь нашей планете давно не угрожала опасность.
-      </div>
-      <div class="speech-bubble tail-br" style="top:34%;right:6%;max-width:42%">
-        <span class="speaker tolpa">Толпа</span>
-        — Неужели Призыв?
-      </div>
-      <div class="speech-bubble tail-bl" style="top:52%;left:6%;max-width:46%">
-        <span class="speaker hrust">Мудрый Хрусталик</span>
-        — Да! Мы обратимся к Призыву!
-      </div>
-      <div class="speech-bubble tail-br" style="top:70%;right:6%;max-width:44%">
-        <span class="speaker sovet">Советник</span>
-        — Еще р-рано р-радоваться. Мы наб-беремся терпения и над-дежды.
-      </div>
-    </div>
-
-    <div class="next-frame-panel">
-      <div class="next-frame-text">Жидкость в сосуде засветилась. Дым рассеялся... но вода осталась точно такой же, как и была!</div>
-      <button class="next-frame-btn">Следующий кадр →</button>
-    </div>
+<div class="overlay" id="registration-overlay">
+  <div class="reg-title">🌟 Стань частью команды!</div>
+  <div class="reg-card">
+    <div class="reg-description">Зарегистрируйся, чтобы:<br>✨ Сохранить свой прогресс<br>🏅 Получать награды за тренировки<br>📖 Открыть следующую серию комикса<br>🎮 Участвовать в соревнованиях</div>
+    <form class="reg-form" id="reg-form">
+      <input type="text" class="reg-input" id="reg-nickname" placeholder="Придумай никнейм" required maxlength="20">
+      <input type="email" class="reg-input" id="reg-email" placeholder="Email родителя" required>
+      <label class="reg-checkbox"><input type="checkbox" id="reg-confirm" required><span>Родители разрешили играть</span></label>
+      <button type="submit" class="tr-btn" style="width:100%;">🚀 Зарегистрироваться</button>
+    </form>
+    <button class="reg-skip" onclick="skipRegistration()">Продолжить без регистрации →</button>
   </div>
-
-  <!-- ═══ КАДР 8: Появление девочки ═══ -->
-  <div class="frame" data-index="8">
-    <div class="frame-bg blurred" style="background: radial-gradient(ellipse at 50% 30%, #f59e0b 0%, #a855f7 30%, #1e1b4b 70%, #0a0618 100%);"></div>
-    <div class="frame-overlay"></div>
-
-    <button class="audio-btn" title="Озвучка рассказчика (заглушка)">
-      <span class="audio-icon">🔊</span>
-      <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
-    </button>
-    <button class="play-clip-btn">▶ Воспроизвести отрывок</button>
-
-    <div class="narration-box">
-      <div class="narration-label">🎙️ Рассказчик</div>
-      <div class="narration-text">
-        Жидкость в сосуде засветилась. Дым рассеялся... но вода осталась точно такой же, как и была!
-        <br><br>
-        На площади воцарилась мрачная тишина. Советник лихорадочно зашелестел страницами своей папки. С этими словами глаза его закатились, и он с тихим стоном повалился в обморок прямо на руки Мудрому Хрусталику.
-        <br><br>
-        И в этот миг сосуд забурлил с новой силой. Из него вырвался яркий, широкий луч разноцветной энергии.
-      </div>
-    </div>
-
-    <div class="video-container">
-      <div class="video-placeholder">
-        <div class="ph-icon">🎬</div>
-        <div class="ph-text">Видео: Появление девочки</div>
-        <div class="ph-note">Вода в стеклянном чане затухает, король подхватывает за плечи пошатывающегося Советника, посох выскальзывает и падает на пьедестал. Из сосуда вырывается яркий луч разноцветной энергии в небо.</div>
-      </div>
-    </div>
-
-    <div class="dialogues-container">
-      <div class="speech-bubble tail-bl" style="top:14%;left:6%;max-width:48%">
-        <span class="speaker tolpa">Голос из толпы</span>
-        — Призыв не сработал! Планета обречена!
-      </div>
-      <div class="speech-bubble tail-br" style="top:40%;right:6%;max-width:46%">
-        <span class="speaker sovet">Советник</span>
-        — Н-не сходится с прог-гнозом! Н-неужели — это та самая пог-г-р-решность в 0,0000000000000001 процента?! О, господи, ск-колько же там н-нулей...
-      </div>
-    </div>
-
-    <div class="next-frame-panel">
-      <div class="next-frame-text">Он ударил прямо в небо, а затем с громким хлопком на площадь приземлилось «нечто».</div>
-      <button class="next-frame-btn">Следующий кадр →</button>
-    </div>
-  </div>
-
-  <!-- ═══ КАДР 9: Трансформация в Суперглазку ═══ -->
-  <div class="frame" data-index="9">
-    <div class="frame-bg blurred" style="background: radial-gradient(circle at 50% 50%, #ec4899 0%, #a855f7 30%, #4c1d95 70%, #0a0618 100%);"></div>
-    <div class="frame-overlay"></div>
-
-    <button class="audio-btn" title="Озвучка рассказчика (заглушка)">
-      <span class="audio-icon">🔊</span>
-      <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
-    </button>
-    <button class="play-clip-btn">▶ Воспроизвести отрывок</button>
-
-    <div class="narration-box">
-      <div class="narration-label">🎙️ Рассказчик</div>
-      <div class="narration-text">
-        Он ударил прямо в небо, а затем с громким хлопком на площадь приземлилось «нечто». Когда туманное облако рассеялось, все увидели… девочку. В красном комбинезоне, с растрепанными, ослепительно белыми волосами и огромными голубыми глазами. На вид ей было не больше десяти лет.
-        <br><br>
-        Советник икнул и чуть было опять не потерял сознание.
-        <br><br>
-        И в ту же секунду случилось чудо. Её комбинезон озарился ярким светом и преобразился. Теперь за спиной девочки развевался белый плащ, на руках появились перчатки-краги, на ногах сапожки, а на груди засиял знак «V».
-        <br><br>
-        Но ликующая толпа, не слушая его, ринулась на возвышение. Девочку подхватили на руки и начали подбрасывать вверх.
-      </div>
-    </div>
-
-    <div class="video-container">
-      <div class="video-placeholder">
-        <div class="ph-icon">🎬</div>
-        <div class="ph-text">Видео: Трансформация</div>
-        <div class="ph-note">Посох касается плеча девочки, пробегает разряд тока, комбинезон озаряется ярким светом, преображается — появляются белый плащ, перчатки-краги, сапожки, знак «V» на груди сверкает, толпа ликует.</div>
-      </div>
-    </div>
-
-    <div class="dialogues-container">
-      <div class="speech-bubble tail-bl" style="top:12%;left:6%;max-width:42%">
-        <span class="speaker dev">Девочка</span>
-        — Привет.
-      </div>
-      <div class="speech-bubble tail-br" style="top:30%;right:6%;max-width:46%">
-        <span class="speaker hrust">Мудрый Хрусталик</span>
-        — Ты наше спасение.
-      </div>
-      <div class="speech-bubble tail-bl" style="top:52%;left:6%;max-width:44%">
-        <span class="speaker dev">Девочка</span>
-        — Ай!
-      </div>
-      <div class="speech-bubble tail-br" style="top:68%;right:6%;max-width:46%">
-        <span class="speaker tolpa">Толпа</span>
-        — Да это же символ планеты Видеаль! Мы спасены!
-      </div>
-      <div class="speech-bubble tail-bl" style="top:82%;left:6%;max-width:48%">
-        <span class="speaker sovet">Советник</span>
-        — Н-не тор-ропитесь, нам предстоит д-долгий путь, чтобы об-бучить всему эту девочку.
-      </div>
-    </div>
-
-    <div class="next-frame-panel">
-      <div class="next-frame-text">Мудрый Хрусталик заботливо взял её за руку, доброжелательно улыбнулся и сказал:</div>
-      <button class="next-frame-btn">Следующий кадр →</button>
-    </div>
-  </div>
-
-  <!-- ═══ КАДР 9.5: Идут к замку ═══ -->
-  <div class="frame" data-index="10">
-    <div class="frame-bg blurred" style="background: linear-gradient(160deg, #1d4ed8 0%, #7c3aed 40%, #1e1b4b 80%, #0a0618 100%);"></div>
-    <div class="frame-overlay"></div>
-
-    <button class="audio-btn" title="Озвучка рассказчика (заглушка)">
-      <span class="audio-icon">🔊</span>
-      <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
-    </button>
-    <button class="play-clip-btn">▶ Воспроизвести отрывок</button>
-
-    <div class="narration-box">
-      <div class="narration-label">🎙️ Рассказчик</div>
-      <div class="narration-text">
-        Мудрый Хрусталик заботливо взял её за руку, доброжелательно улыбнулся и сказал:
-        <br><br>
-        Девочка нерешительно ступила на каменную дорожку, которая вела в замок правителя. Советник ободряюще кивнул ей. И тогда она весело побежала вперёд, подпрыгивая то на одной, то на другой ножке.
-        <br><br>
-        Жители начали расходиться. И каждый надеялся, что эта малышка совсем скоро спасет их планету Видеаль от Большой Тьмы и защитит детей с планеты Земля.
-      </div>
-    </div>
-
-    <div class="video-container">
-      <div class="video-placeholder">
-        <div class="ph-icon">🎬</div>
-        <div class="ph-text">Видео: Дорога к замку</div>
-        <div class="ph-note">Оба персонажа медленно идут по мощёной улице уютного городка к сказочному замку в конце улицы, держась за руку, тёплый мягкий свет, плавное медленное отдаляющееся движение камеры со спины героев, 10-секундный единый кинематографичный план.</div>
-      </div>
-    </div>
-
-    <div class="dialogues-container">
-      <div class="speech-bubble tail-bl" style="top:18%;left:6%;max-width:48%">
-        <span class="speaker hrust">Мудрый Хрусталик</span>
-        — Нам нужно многое тебе рассказать! Мой Советник всегда будет рядом и всему обучит тебя.
-      </div>
-    </div>
-
-    <div class="next-frame-panel">
-      <div class="next-frame-text">Только один видеалянин грустно плёлся позади толпы, он был единственным во всей планете, который не мог найти себе дела!</div>
-      <button class="next-frame-btn">Следующий кадр →</button>
-    </div>
-  </div>
-
-  <!-- ═══ КАДР 10: Ищуработу и коза-журналист ═══ -->
-  <div class="frame" data-index="11">
-    <div class="frame-bg blurred" style="background: radial-gradient(ellipse at 60% 70%, #b45309 0%, #7c2d12 30%, #1a0f2e 70%, #0a0618 100%);"></div>
-    <div class="frame-overlay"></div>
-
-    <button class="audio-btn" title="Озвучка рассказчика (заглушка)">
-      <span class="audio-icon">🔊</span>
-      <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
-    </button>
-    <button class="play-clip-btn">▶ Воспроизвести отрывок</button>
-
-    <div class="narration-box">
-      <div class="narration-label">🎙️ Рассказчик</div>
-      <div class="narration-text">
-        Только один видеалянин грустно плёлся позади толпы, он был единственным во всей планете, который не мог найти себе дела! Местные прозвали его «Ищуработу». А все потому, что он был полицейским, пожарным и доктором в одном лице! Но на Видеале уже сотню лет никто не совершал преступлений, пятьдесят два года ничего не горело и никто, ну совершенно никто не болел.
-        <br><br>
-        Правда, несколько лет назад произошёл один вопиющий случай. Пожилая курица страдала куриной слепотой и однажды случайно отдавила лапкой копыто лошади. «Ищуработу» очень обрадовался и хотел тут же посадить преступницу в тюрьму. Но ее давно снесли, а на этом месте построили начальную школу для домашних животных.
-        <br><br>
-        К слову, лошадь совсем даже не обиделась, ей было не больно. Да и бабушка курица тут же извинилась, и они расстались друзьями. Ну а несчастный «Ищуработу» опять пошёл искать себе дело по душе.
-        <br><br>
-        Тем временем коза дописала репортаж, захлопнула блокнот и отправилась в редакцию, сдавать материал. И совсем скоро на первой полосе газеты появилась статья под заголовком: «У планеты Видеаль появился новый герой!» и фотография девочки в сверкающем костюме.
-      </div>
-    </div>
-
-    <div class="video-container">
-      <div class="video-placeholder">
-        <div class="ph-icon">🎬</div>
-        <div class="ph-text">Видео: Ищуработу и коза</div>
-        <div class="ph-note">В первой сцене курица извиняется перед конём, на заднем плане к ним бежит мужчина в медицинской форме. В другой половине — общий план, коза дописывает пером текст в блокноте, закрывает блокнот и ставит перо в чернильницу.</div>
-      </div>
-    </div>
-
-    <div class="dialogues-container"></div>
-
-    <div class="next-frame-panel">
-      <div class="next-frame-text">Продолжение следует...</div>
-      <button class="next-frame-btn">Завершить эпизод ✨</button>
-    </div>
-  </div>
-
-</div><!-- /episode-viewer -->
+</div>
 
 <!-- ═══════════════════════════════════════════════════════════
      TRANSITION OVERLAY
@@ -608,6 +224,11 @@
   <div class="transition-text">Следующий кадр...</div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════════════════════════ -->
 <script src="js/app.js"></script>
+<script src="js/game_runner.js"></script>
+<script src="js/game_gymnastics.js"></script>
 </body>
 </html>
