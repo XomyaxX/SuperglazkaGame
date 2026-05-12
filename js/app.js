@@ -355,6 +355,7 @@ const App = (function() {
   let audioTimeout = null;
   let currentAudioEl = null;
   let currentPhase = 'narration';
+  let typeWriterInterval = null;
 
   // ═══════════════════════════════════════════════════════════
   // DOM REFS
@@ -389,6 +390,10 @@ const App = (function() {
           <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
         </button>
 
+        <div class="narrator-bar">
+          <span class="narrator-content"></span><span class="narrator-cursor">|</span>
+        </div>
+
         <div class="frame-nav-bar">
           <button class="nav-btn nav-prev" ${idx === 0 ? 'disabled' : ''}>← Назад</button>
           <div class="nav-counter">Кадр ${idx + 1} из ${total}</div>
@@ -411,6 +416,35 @@ const App = (function() {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // TYPEWRITER
+  // ═══════════════════════════════════════════════════════════
+  function stopTypeWriter() {
+    if (typeWriterInterval) {
+      clearInterval(typeWriterInterval);
+      typeWriterInterval = null;
+    }
+  }
+
+  function typeWriter(text, element) {
+    stopTypeWriter();
+    if (!element) return;
+    element.textContent = '';
+    const speed = 30; // ms per character
+    let i = 0;
+    typeWriterInterval = setInterval(() => {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+        // Auto-scroll to bottom
+        const bar = element.closest('.narrator-bar');
+        if (bar) bar.scrollTop = bar.scrollHeight;
+      } else {
+        stopTypeWriter();
+      }
+    }, speed);
   }
 
   // ═══════════════════════════════════════════════════════════
@@ -473,6 +507,7 @@ const App = (function() {
   function showFrame(idx) {
     const allFrames = document.querySelectorAll('.frame');
     stopAudio();
+    stopTypeWriter();
     allFrames.forEach((f, i) => {
       if (i !== idx) {
         const v = f.querySelector('video');
@@ -502,6 +537,13 @@ const App = (function() {
       video.muted = false;
       video.volume = 0.25;
       video.play().catch(() => {});
+    }
+
+    // Start typewriter narration
+    const narratorContent = frame.querySelector('.narrator-content');
+    const narrationText = frames[idx]?.narration || '';
+    if (narratorContent && narrationText) {
+      typeWriter(narrationText, narratorContent);
     }
   }
 

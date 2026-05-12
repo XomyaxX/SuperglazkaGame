@@ -865,6 +865,53 @@ body {
   white-space: nowrap;
 }
 
+/* ─── NARRATOR BAR ─── */
+.narrator-bar {
+  position: absolute;
+  bottom: 72px;
+  left: 12px;
+  right: 12px;
+  z-index: 20;
+  max-height: 15vh;
+  background: rgba(10, 6, 24, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 18px;
+  overflow-y: auto;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  scrollbar-width: thin;
+}
+
+.narrator-bar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.narrator-bar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.narrator-content {
+  white-space: pre-wrap;
+}
+
+.narrator-cursor {
+  display: inline-block;
+  color: var(--neon-cyan);
+  font-weight: 700;
+  animation: cursorBlink 1s step-end infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 @media (max-width: 640px) {
   .frame-nav-bar {
     padding: 12px 16px;
@@ -875,5 +922,10 @@ body {
   }
   .nav-counter {
     font-size: 11px;
+  }
+  .narrator-bar {
+    font-size: 13px;
+    padding: 8px 12px;
+    bottom: 64px;
   }
 }
