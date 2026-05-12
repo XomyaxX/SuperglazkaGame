@@ -869,8 +869,8 @@ body {
 .narrator-bar {
   position: absolute;
   bottom: 72px;
-  left: 12px;
-  right: 12px;
+  left: 10%;
+  right: 10%;
   z-index: 20;
   max-height: 15vh;
   background: rgba(10, 6, 24, 0.82);
