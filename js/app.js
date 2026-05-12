@@ -356,6 +356,7 @@ const App = (function() {
   let currentAudioEl = null;
   let currentPhase = 'narration';
   let typeWriterInterval = null;
+  let dialogueTimeouts = [];
 
   // ═══════════════════════════════════════════════════════════
   // DOM REFS
@@ -379,10 +380,21 @@ const App = (function() {
           <div class="ph-note">${escapeHtml(frameData.videoPrompt)}</div>
         </div>`;
 
+    const dialoguesHtml = frameData.dialogues.map((d, i) => `
+      <div class="speech-bubble tail-${d.position}" style="${d.style};max-width:46%">
+        <span class="speaker ${d.speaker}">${SPEAKER_NAMES[d.speaker] || d.speaker}</span>
+        ${escapeHtml(d.text)}
+      </div>
+    `).join('');
+
     return `
       <div class="frame" data-index="${idx}" style="display:${idx === 0 ? 'flex' : 'none'}">
         <div class="video-layer">
           ${videoContent}
+        </div>
+
+        <div class="dialogues-container">
+          ${dialoguesHtml}
         </div>
 
         <button class="audio-btn" data-audio="${escapeHtml(frameData.audioSrc || '')}" title="Озвучка рассказчика">
@@ -426,6 +438,11 @@ const App = (function() {
       clearInterval(typeWriterInterval);
       typeWriterInterval = null;
     }
+  }
+
+  function clearDialogueTimeouts() {
+    dialogueTimeouts.forEach(id => clearTimeout(id));
+    dialogueTimeouts = [];
   }
 
   function typeWriter(text, element) {
@@ -508,6 +525,7 @@ const App = (function() {
     const allFrames = document.querySelectorAll('.frame');
     stopAudio();
     stopTypeWriter();
+    clearDialogueTimeouts();
     allFrames.forEach((f, i) => {
       if (i !== idx) {
         const v = f.querySelector('video');
@@ -544,6 +562,18 @@ const App = (function() {
     const narrationText = frames[idx]?.narration || '';
     if (narratorContent && narrationText) {
       typeWriter(narrationText, narratorContent);
+    }
+
+    // Animate dialogue bubbles
+    const dialoguesContainer = frame.querySelector('.dialogues-container');
+    const bubbles = frame.querySelectorAll('.speech-bubble');
+    if (dialoguesContainer) {
+      dialoguesContainer.classList.add('active');
+      bubbles.forEach((b, i) => {
+        b.classList.remove('visible');
+        const id = setTimeout(() => b.classList.add('visible'), i * 600 + 800);
+        dialogueTimeouts.push(id);
+      });
     }
   }
 

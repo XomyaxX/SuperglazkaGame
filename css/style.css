@@ -805,7 +805,6 @@ body {
 .frame .frame-overlay,
 .frame .narration-box,
 .frame .play-clip-btn,
-.frame .dialogues-container,
 .frame .video-container,
 .frame .next-frame-panel {
   display: none !important;
