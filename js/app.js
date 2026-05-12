@@ -346,19 +346,8 @@ const App = (function() {
   // RENDER FRAME
   // ═══════════════════════════════════════════════════════════
   function renderFrame(frameData, idx, total) {
-    const bgStyle = frameData.bgImage
-      ? `background:${frameData.bgGradient};background-image:url('${frameData.bgImage}');background-size:cover;background-position:center;`
-      : `background:${frameData.bgGradient};`;
-
-    const dialoguesHtml = frameData.dialogues.map((d, i) => `
-      <div class="speech-bubble tail-${d.position}" style="${d.style};max-width:46%">
-        <span class="speaker ${d.speaker}">${SPEAKER_NAMES[d.speaker] || d.speaker}</span>
-        ${escapeHtml(d.text)}
-      </div>
-    `).join('');
-
     const videoContent = frameData.videoSrc
-      ? `<video src="${frameData.videoSrc}" autoplay muted playsinline style="width:100%;height:100%;object-fit:cover"></video>`
+      ? `<video src="${frameData.videoSrc}" autoplay playsinline preload="auto" style="width:100%;height:100%;object-fit:cover"></video>`
       : `<div class="video-placeholder">
           <div class="ph-icon">🎬</div>
           <div class="ph-text">Видео: ${escapeHtml(frameData.title)}</div>
@@ -367,33 +356,19 @@ const App = (function() {
 
     return `
       <div class="frame" data-index="${idx}" style="display:${idx === 0 ? 'flex' : 'none'}">
-        <div class="frame-bg blurred" style="${bgStyle}"></div>
-        <div class="frame-overlay"></div>
+        <div class="video-layer">
+          ${videoContent}
+        </div>
 
         <button class="audio-btn" data-audio="${escapeHtml(frameData.audioSrc || '')}" title="Озвучка рассказчика">
           <span class="audio-icon">🔊</span>
           <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
         </button>
-        <button class="play-clip-btn">▶ Воспроизвести отрывок</button>
 
-        <div class="narration-box">
-          <div class="narration-label">🎙️ Рассказчик</div>
-          <div class="narration-text">${escapeHtml(frameData.narration).replace(/\n/g, '<br><br>')}</div>
-        </div>
-
-        <div class="video-container">
-          ${videoContent}
-        </div>
-
-        <div class="dialogues-container">
-          ${dialoguesHtml}
-        </div>
-
-        <div class="next-frame-panel">
-          <div class="next-frame-text">${escapeHtml(frameData.transitionText)}</div>
-          <button class="next-frame-btn" data-game="${frameData.game || ''}">
-            ${idx < total - 1 ? 'Следующий кадр →' : 'Завершить эпизод ✨'}
-          </button>
+        <div class="frame-nav-bar">
+          <button class="nav-btn nav-prev" ${idx === 0 ? 'disabled' : ''}>← Назад</button>
+          <div class="nav-counter">Кадр ${idx + 1} из ${total}</div>
+          <button class="nav-btn nav-next">${idx < total - 1 ? 'Вперёд →' : 'Завершить ✨'}</button>
         </div>
       </div>
     `;
@@ -473,59 +448,40 @@ const App = (function() {
   // ═══════════════════════════════════════════════════════════
   function showFrame(idx) {
     const allFrames = document.querySelectorAll('.frame');
+    stopAudio();
     allFrames.forEach((f, i) => {
+      if (i !== idx) {
+        const v = f.querySelector('video');
+        if (v) { v.pause(); v.currentTime = 0; }
+      }
       f.style.display = i === idx ? 'flex' : 'none';
       f.classList.toggle('active', i === idx);
     });
     currentFrameIdx = idx;
-    currentPhase = 'narration';
 
     const total = frames.length;
     if (progressFill) progressFill.style.width = ((idx + 1) / total * 100) + '%';
     if (frameCounter) frameCounter.textContent = `Кадр ${idx + 1} из ${total}`;
 
-    resetFrameState();
-
-    // Auto-start narration
     const frame = allFrames[idx];
-    const narrText = frame.querySelector('.narration-text');
-    const playBtn = frame.querySelector('.play-clip-btn');
-    const audioSrc = frame.querySelector('.audio-btn')?.dataset.audio;
+    if (!frame) return;
 
-    if (narrText && narrText.textContent.trim()) {
-      setTimeout(() => {
-        playAudio(audioSrc || null, () => {
-          if (currentPhase === 'narration' && playBtn) {
-            playBtn.classList.add('visible');
-          }
-        });
-      }, 600);
-    } else {
-      if (playBtn) playBtn.classList.add('visible');
+    // Auto-play audio narration
+    const audioSrc = frame.querySelector('.audio-btn')?.dataset.audio;
+    if (audioSrc) {
+      setTimeout(() => playAudio(audioSrc, null), 300);
+    }
+
+    // Auto-play video (with sound)
+    const video = frame.querySelector('video');
+    if (video) {
+      video.muted = false;
+      video.play().catch(() => {});
     }
   }
 
   function resetFrameState() {
-    const frame = document.querySelector('.frame.active');
-    if (!frame) return;
-
-    const bg = frame.querySelector('.frame-bg');
-    const overlay = frame.querySelector('.frame-overlay');
-    const narration = frame.querySelector('.narration-box');
-    const videoContainer = frame.querySelector('.video-container');
-    const dialogues = frame.querySelector('.dialogues-container');
-    const playBtn = frame.querySelector('.play-clip-btn');
-    const nextPanel = frame.querySelector('.next-frame-panel');
-    const bubbles = frame.querySelectorAll('.speech-bubble');
-
-    if (bg) { bg.classList.remove('clear'); bg.classList.add('blurred'); }
-    if (overlay) overlay.classList.remove('light');
-    if (narration) narration.classList.remove('hidden');
-    if (videoContainer) videoContainer.classList.remove('active');
-    if (dialogues) dialogues.classList.remove('active');
-    if (playBtn) playBtn.classList.remove('visible');
-    if (nextPanel) nextPanel.classList.remove('visible');
-    bubbles.forEach(b => b.classList.remove('visible'));
+    // No phase states to reset — video and audio start automatically
   }
 
   function nextFrame() {
@@ -556,42 +512,7 @@ const App = (function() {
   // PHASE TRANSITIONS
   // ═══════════════════════════════════════════════════════════
   function startVideoPhase() {
-    currentPhase = 'video';
-    const frame = document.querySelector('.frame.active');
-    if (!frame) return;
-
-    const bg = frame.querySelector('.frame-bg');
-    const overlay = frame.querySelector('.frame-overlay');
-    const narration = frame.querySelector('.narration-box');
-    const videoContainer = frame.querySelector('.video-container');
-    const dialogues = frame.querySelector('.dialogues-container');
-    const playBtn = frame.querySelector('.play-clip-btn');
-    const bubbles = frame.querySelectorAll('.speech-bubble');
-
-    if (narration) narration.classList.add('hidden');
-    if (playBtn) playBtn.classList.remove('visible');
-
-    if (bg) { bg.classList.remove('blurred'); bg.classList.add('clear'); }
-    if (overlay) overlay.classList.add('light');
-
-    setTimeout(() => {
-      if (videoContainer) videoContainer.classList.add('active');
-    }, 500);
-
-    setTimeout(() => {
-      if (dialogues) dialogues.classList.add('active');
-      bubbles.forEach((b, i) => {
-        setTimeout(() => b.classList.add('visible'), i * 400 + 200);
-      });
-    }, 1200);
-
-    const hasDialogues = bubbles.length > 0;
-    const delay = hasDialogues ? 3000 + bubbles.length * 400 : 2500;
-
-    setTimeout(() => {
-      const nextPanel = frame.querySelector('.next-frame-panel');
-      if (nextPanel) nextPanel.classList.add('visible');
-    }, delay);
+    // Deprecated — video now starts automatically with the frame
   }
 
   // ═══════════════════════════════════════════════════════════
@@ -693,28 +614,31 @@ const App = (function() {
   // EVENT BINDING
   // ═══════════════════════════════════════════════════════════
   function bindFrameEvents() {
+    // Audio toggle
     document.querySelectorAll('.audio-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const frame = btn.closest('.frame');
-        const narrText = frame ? frame.querySelector('.narration-text') : null;
         const audioSrc = btn.dataset.audio || null;
-
         if (isPlayingAudio) {
           stopAudio();
-        } else if (narrText) {
-          playAudio(audioSrc, () => {
-            const playBtn = frame.querySelector('.play-clip-btn');
-            if (playBtn && currentPhase === 'narration') playBtn.classList.add('visible');
-          });
+        } else if (audioSrc) {
+          playAudio(audioSrc, null);
         }
       });
     });
 
-    document.querySelectorAll('.play-clip-btn').forEach(btn => {
-      btn.addEventListener('click', () => startVideoPhase());
+    // Video play/pause toggle
+    document.querySelectorAll('.video-layer video').forEach(video => {
+      video.addEventListener('click', () => {
+        if (video.paused) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
     });
 
-    document.querySelectorAll('.next-frame-btn').forEach(btn => {
+    // Navigation buttons
+    document.querySelectorAll('.nav-btn.nav-next').forEach(btn => {
       btn.addEventListener('click', () => {
         const frameData = frames[currentFrameIdx];
         if (frameData && frameData.game) {
@@ -723,6 +647,10 @@ const App = (function() {
           nextFrame();
         }
       });
+    });
+
+    document.querySelectorAll('.nav-btn.nav-prev').forEach(btn => {
+      btn.addEventListener('click', () => prevFrame());
     });
   }
 
@@ -748,19 +676,11 @@ const App = (function() {
     document.addEventListener('keydown', (e) => {
       if (!episodeViewer || !episodeViewer.classList.contains('active')) return;
       if (e.key === 'ArrowRight' || e.key === ' ') {
-        const frame = document.querySelector('.frame.active');
-        if (!frame) return;
-        const playBtn = frame.querySelector('.play-clip-btn');
-        const nextPanel = frame.querySelector('.next-frame-panel');
-        if (playBtn && playBtn.classList.contains('visible')) {
-          startVideoPhase();
-        } else if (nextPanel && nextPanel.classList.contains('visible')) {
-          const frameData = frames[currentFrameIdx];
-          if (frameData && frameData.game) {
-            startGame(frameData.game);
-          } else {
-            nextFrame();
-          }
+        const frameData = frames[currentFrameIdx];
+        if (frameData && frameData.game) {
+          startGame(frameData.game);
+        } else {
+          nextFrame();
         }
       }
       if (e.key === 'ArrowLeft') prevFrame();
