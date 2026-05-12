@@ -347,7 +347,7 @@ const App = (function() {
   // ═══════════════════════════════════════════════════════════
   function renderFrame(frameData, idx, total) {
     const videoContent = frameData.videoSrc
-      ? `<video src="${frameData.videoSrc}" autoplay loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover"></video>`
+      ? `<video src="${frameData.videoSrc}" autoplay loop playsinline preload="auto" volume="0.25" style="width:100%;height:100%;object-fit:cover"></video>`
       : `<div class="video-placeholder">
           <div class="ph-icon">🎬</div>
           <div class="ph-text">Видео: ${escapeHtml(frameData.title)}</div>
@@ -472,10 +472,11 @@ const App = (function() {
       setTimeout(() => playAudio(audioSrc, null), 300);
     }
 
-    // Auto-play video (with sound)
+    // Auto-play video (with sound, quieter than narration)
     const video = frame.querySelector('video');
     if (video) {
       video.muted = false;
+      video.volume = 0.25;
       video.play().catch(() => {});
     }
   }
