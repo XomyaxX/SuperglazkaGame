@@ -347,7 +347,7 @@ const App = (function() {
   // ═══════════════════════════════════════════════════════════
   function renderFrame(frameData, idx, total) {
     const videoContent = frameData.videoSrc
-      ? `<video src="${frameData.videoSrc}" autoplay playsinline preload="auto" style="width:100%;height:100%;object-fit:cover"></video>`
+      ? `<video src="${frameData.videoSrc}" autoplay loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover"></video>`
       : `<div class="video-placeholder">
           <div class="ph-icon">🎬</div>
           <div class="ph-text">Видео: ${escapeHtml(frameData.title)}</div>
