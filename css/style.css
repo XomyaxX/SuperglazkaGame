@@ -868,7 +868,7 @@ body {
 /* ─── NARRATOR BAR ─── */
 .narrator-bar {
   position: absolute;
-  bottom: 72px;
+  bottom: 96px;
   left: 10%;
   right: 10%;
   z-index: 20;
@@ -926,6 +926,6 @@ body {
   .narrator-bar {
     font-size: 13px;
     padding: 8px 12px;
-    bottom: 64px;
+    bottom: 84px;
   }
 }
