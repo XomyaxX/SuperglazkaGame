@@ -947,40 +947,11 @@ body {
   background: rgba(10, 6, 24, 0.85);
   backdrop-filter: blur(30px);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 16px 24px;
+  padding: 12px 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.nav-btn {
-  background: var(--gradient-primary);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius-xl);
-  padding: 12px 28px;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 900;
-  cursor: pointer;
-  box-shadow: 0 4px 25px rgba(124, 58, 237, 0.5);
-  transition: all .2s var(--ease-spring);
-}
-
-.nav-btn:hover {
-  transform: scale(1.05);
-}
-
-.nav-btn:active {
-  transform: scale(0.95);
-}
-
-.nav-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+  justify-content: center;
+  gap: 16px;
 }
 
 .nav-counter {
@@ -989,6 +960,40 @@ body {
   color: rgba(255, 255, 255, 0.7);
   text-align: center;
   white-space: nowrap;
+}
+
+/* Game dock */
+.game-dock {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.game-chip {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: #fff;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+  transition: all .2s var(--ease-spring);
+  animation: gameChipPulse 2s ease-in-out infinite;
+}
+.game-chip:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
+}
+.game-chip:active { transform: scale(0.9); }
+
+@keyframes gameChipPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); }
+  50% { box-shadow: 0 0 35px rgba(6, 182, 212, 0.6); }
 }
 
 /* ─── NARRATOR BAR ─── */
@@ -1142,9 +1147,10 @@ body {
   .frame-nav-bar {
     padding: 12px 16px;
   }
-  .nav-btn {
-    padding: 10px 20px;
-    font-size: 13px;
+  .game-chip {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
   }
   .nav-counter {
     font-size: 11px;

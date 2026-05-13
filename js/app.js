@@ -15,6 +15,7 @@ const App = (function() {
         {
           id: 1,
           title: "Планета Видеаль в космосе",
+          availableGames: [],
           bgGradient: "radial-gradient(ellipse at 50% 50%, #312e81 0%, #1e1b4b 40%, #0f0a1e 100%)",
           bgImage: "assets/images/изб_1.png",
           audioSrc: "assets/audio/ауд_1.mp3",
@@ -30,6 +31,7 @@ const App = (function() {
         {
           id: 2,
           title: "Жизнь на Видеале",
+          availableGames: [],
           bgGradient: "radial-gradient(ellipse at 50% 80%, #4c1d95 0%, #1a0f2e 60%, #0a0618 100%)",
           bgImage: "assets/images/изб_2.png",
           audioSrc: "assets/audio/ауд_2.mp3",
@@ -45,6 +47,7 @@ const App = (function() {
         {
           id: 3,
           title: "Угроза Великой Тьмы",
+          availableGames: [],
           bgGradient: "linear-gradient(180deg, #1e293b 0%, #334155 40%, #0f172a 100%)",
           bgImage: "assets/images/изб_3.png",
           audioSrc: "assets/audio/ауд_3.mp3",
@@ -58,6 +61,7 @@ const App = (function() {
         {
           id: 3.5,
           title: "Угроза Великой Тьмы",
+          availableGames: ['blink'],
           bgGradient: "linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0a0618 100%)",
           bgImage: "assets/images/изб_3.5png",
           audioSrc: "assets/audio/ауд_4.mp3",
@@ -71,6 +75,7 @@ const App = (function() {
         {
           id: 4,
           title: "Каменная площадь",
+          availableGames: ['blink'],
           bgGradient: "linear-gradient(160deg, #0f766e 0%, #134e4a 30%, #0f172a 70%, #0a0618 100%)",
           bgImage: "assets/images/изб_4.png",
           audioSrc: "assets/audio/ауд_5.mp3",
@@ -86,6 +91,7 @@ const App = (function() {
         {
           id: 5,
           title: "Мудрый Хрусталик и Советник",
+          availableGames: ['blink'],
           bgGradient: "radial-gradient(ellipse at 40% 60%, #4338ca 0%, #1e1b4b 50%, #0a0618 100%)",
           bgImage: "assets/images/изб_5.png",
           audioSrc: "assets/audio/ауд_6.mp3",
@@ -101,6 +107,7 @@ const App = (function() {
         {
           id: 6,
           title: "Речь Правителя",
+          availableGames: ['blink'],
           bgGradient: "linear-gradient(160deg, #14532d 0%, #166534 30%, #0f172a 80%, #0a0618 100%)",
           bgImage: "assets/images/изб_6.png",
           audioSrc: "assets/audio/ауд_7.mp3",
@@ -124,6 +131,7 @@ const App = (function() {
         {
           id: 7,
           title: "Ритуал Призыва",
+          availableGames: ['blink'],
           bgGradient: "radial-gradient(circle at 50% 50%, #7c3aed 0%, #4c1d95 40%, #0a0618 100%)",
           bgImage: "assets/images/изб_7.png",
           audioSrc: "assets/audio/ауд_8.mp3",
@@ -151,6 +159,7 @@ const App = (function() {
         {
           id: 8,
           title: "Трансформация в Суперглазку",
+          availableGames: ['blink', 'tracker'],
           bgGradient: "radial-gradient(circle at 50% 50%, #ec4899 0%, #a855f7 30%, #4c1d95 70%, #0a0618 100%)",
           bgImage: "assets/images/изб_9.png",
           audioSrc: "assets/audio/ауд_9.mp3",
@@ -174,6 +183,7 @@ const App = (function() {
         {
           id: 9.5,
           title: "Трансформация в Суперглазку",
+          availableGames: ['blink', 'tracker'],
           bgGradient: "radial-gradient(ellipse at 50% 30%, #f59e0b 0%, #a855f7 30%, #4c1d95 70%, #0a0618 100%)",
           bgImage: "assets/images/изб_9.5.png",
           audioSrc: "assets/audio/ауд_10.mp3",
@@ -192,6 +202,7 @@ const App = (function() {
         {
           id: 10,
           title: "Ищуработу и коза-журналист",
+          availableGames: ['blink', 'tracker'],
           bgGradient: "radial-gradient(ellipse at 60% 70%, #b45309 0%, #7c2d12 30%, #1a0f2e 70%, #0a0618 100%)",
           bgImage: "assets/images/изб_10.png",
           audioSrc: "assets/audio/ауд_11.mp3",
@@ -211,6 +222,7 @@ const App = (function() {
         {
           id: 1,
           title: "Тронный зал",
+          availableGames: [],
           bgGradient: "radial-gradient(ellipse at 50% 30%, #7c3aed 0%, #4c1d95 40%, #1e1b4b 80%, #0a0618 100%)",
           bgImage: "assets/images/2_изб_1.png",
           audioSrc: "assets/audio/ауд_12.mp3",
@@ -226,6 +238,7 @@ const App = (function() {
         {
           id: 2,
           title: "Варианты имён",
+          availableGames: [],
           bgGradient: "linear-gradient(160deg, #1e3a5f 0%, #334155 30%, #0f172a 70%, #0a0618 100%)",
           bgImage: "assets/images/2_изб_2.png",
           audioSrc: "assets/audio/ауд_13.mp3",
@@ -247,6 +260,7 @@ const App = (function() {
         {
           id: 3,
           title: "Суперглазка и Советник",
+          availableGames: [],
           bgGradient: "radial-gradient(circle at 50% 50%, #a855f7 0%, #7c3aed 40%, #4c1d95 80%, #0a0618 100%)",
           bgImage: "assets/images/2_изб_3.png",
           audioSrc: "assets/audio/ауд_14.mp3",
@@ -278,6 +292,7 @@ const App = (function() {
         {
           id: 4,
           title: "Новая комната",
+          availableGames: [],
           bgGradient: "linear-gradient(160deg, #1d4ed8 0%, #7c3aed 40%, #1e1b4b 80%, #0a0618 100%)",
           bgImage: "assets/images/2_изб_4.png",
           audioSrc: "assets/audio/ауд_15.mp3",
@@ -301,6 +316,7 @@ const App = (function() {
         {
           id: 5,
           title: "Умиротворённый сон",
+          availableGames: [],
           bgGradient: "radial-gradient(ellipse at 50% 80%, #312e81 0%, #1e1b4b 40%, #0a0618 100%)",
           bgImage: "assets/images/2_изб_5.png",
           audioSrc: "assets/audio/ауд_16.mp3",
@@ -328,6 +344,7 @@ const App = (function() {
   let currentEpisode = null;
   let currentFrameIdx = 0;
   let frames = [];
+  let gameAdvancePending = false;
   let isPlayingAudio = false;
   let audioTimeout = null;
   let currentAudioEl = null;
@@ -391,9 +408,14 @@ const App = (function() {
         </button>
 
         <div class="frame-nav-bar">
-          <button class="nav-btn nav-prev" ${idx === 0 ? 'disabled' : ''}>← Назад</button>
           <div class="nav-counter">Кадр ${idx + 1} из ${total}</div>
-          <button class="nav-btn nav-next">${idx < total - 1 ? 'Вперёд →' : 'Завершить ✨'}</button>
+          <div class="game-dock">
+            ${(frameData.availableGames || []).map(g => `
+              <button class="game-chip" data-game="${g}" title="${GAME_NAMES[g] || g}">
+                <span class="game-chip-icon">${GAME_ICONS[g] || '🎮'}</span>
+              </button>
+            `).join('')}
+          </div>
         </div>
 
         ${idx < total - 1 ? `
@@ -413,6 +435,9 @@ const App = (function() {
     tolpa: "Толпа",
     nar: "Рассказчик"
   };
+
+  const GAME_NAMES = { blink: 'Моргай-зарядка', tracker: 'Трекер-взгляд' };
+  const GAME_ICONS = { blink: '⚡', tracker: '👀' };
 
   function escapeHtml(text) {
     if (!text) return '';
@@ -674,6 +699,7 @@ const App = (function() {
   function nextFrame() {
     const frameData = frames[currentFrameIdx];
     if (frameData && frameData.game) {
+      gameAdvancePending = true;
       startGame(frameData.game);
       return;
     }
@@ -685,10 +711,13 @@ const App = (function() {
   }
 
   function advanceFromGame() {
-    if (currentFrameIdx < frames.length - 1) {
-      animateTo(currentFrameIdx + 1, 'next');
-    } else {
-      showEndScreen();
+    if (gameAdvancePending) {
+      gameAdvancePending = false;
+      if (currentFrameIdx < frames.length - 1) {
+        animateTo(currentFrameIdx + 1, 'next');
+      } else {
+        showEndScreen();
+      }
     }
   }
 
@@ -911,24 +940,15 @@ const App = (function() {
       btn.addEventListener('touchstart', (e) => { e.preventDefault(); go(); }, {passive: false});
     });
 
-    // Navigation buttons
-    document.querySelectorAll('.nav-btn.nav-next').forEach(btn => {
-      const go = () => {
-        const frameData = frames[currentFrameIdx];
-        if (frameData && frameData.game) {
-          startGame(frameData.game);
-        } else {
-          nextFrame();
-        }
+    // Game chips (replayable mini-games)
+    document.querySelectorAll('.game-chip').forEach(btn => {
+      const launch = () => {
+        gameAdvancePending = false;
+        const gameType = btn.dataset.game;
+        if (gameType) startGame(gameType);
       };
-      btn.addEventListener('click', go);
-      btn.addEventListener('touchstart', (e) => { e.preventDefault(); go(); }, {passive: false});
-    });
-
-    document.querySelectorAll('.nav-btn.nav-prev').forEach(btn => {
-      const go = () => prevFrame();
-      btn.addEventListener('click', go);
-      btn.addEventListener('touchstart', (e) => { e.preventDefault(); go(); }, {passive: false});
+      btn.addEventListener('click', launch);
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); launch(); }, {passive: false});
     });
   }
 
