@@ -367,7 +367,7 @@ const App = (function() {
         </div>`;
 
     return `
-      <div class="frame" data-index="${idx}" style="display:${idx === 0 ? 'flex' : 'none'}">
+      <div class="frame" data-index="${idx}">
         <div class="video-layer">
           ${videoContent}
         </div>
@@ -385,7 +385,10 @@ const App = (function() {
         <div class="narrator-bar">
           <span class="narrator-content"></span><span class="narrator-cursor">|</span>
         </div>
-        <button class="narrator-toggle" title="Свернуть">−</button>
+        <button class="narrator-toggle" title="Свернуть">
+          <span class="nt-icon">−</span>
+          <span class="nt-label">Субтитры</span>
+        </button>
 
         <div class="frame-nav-bar">
           <button class="nav-btn nav-prev" ${idx === 0 ? 'disabled' : ''}>← Назад</button>
@@ -568,20 +571,41 @@ const App = (function() {
   // ═══════════════════════════════════════════════════════════
   // FRAME NAVIGATION
   // ═══════════════════════════════════════════════════════════
-  function showFrame(idx) {
+  function showFrame(idx, direction) {
     const allFrames = document.querySelectorAll('.frame');
     stopAudio();
     stopTypeWriter();
     clearDialogueTimeouts();
     hideAllTransitionPopups();
+
+    // Disable transitions for instant init (direction === null)
+    if (!direction) {
+      allFrames.forEach(f => f.style.transition = 'none');
+    }
+
     allFrames.forEach((f, i) => {
+      // Pause video on frames leaving the viewport
       if (i !== idx) {
         const v = f.querySelector('video');
         if (v) { v.pause(); v.currentTime = 0; }
       }
-      f.style.display = i === idx ? 'flex' : 'none';
-      f.classList.toggle('active', i === idx);
+      f.classList.remove('active', 'above', 'below');
+      if (i === idx) {
+        f.classList.add('active');
+      } else if (i < idx) {
+        f.classList.add('above');
+      } else {
+        f.classList.add('below');
+      }
     });
+
+    // Re-enable transitions after init
+    if (!direction) {
+      requestAnimationFrame(() => {
+        allFrames.forEach(f => f.style.transition = '');
+      });
+    }
+
     currentFrameIdx = idx;
 
     const total = frames.length;
@@ -605,7 +629,11 @@ const App = (function() {
     const narratorBar = frame.querySelector('.narrator-bar');
     const narratorToggle = frame.querySelector('.narrator-toggle');
     if (narratorBar) { narratorBar.classList.remove('collapsed'); }
-    if (narratorToggle) { narratorToggle.textContent = '−'; narratorToggle.title = 'Свернуть'; }
+    if (narratorToggle) {
+      const ntIcon = narratorToggle.querySelector('.nt-icon');
+      if (ntIcon) ntIcon.textContent = '−';
+      narratorToggle.title = 'Свернуть';
+    }
 
     // Auto-play audio narration + dialogue sequence
     const audioSrc = frame.querySelector('.audio-btn')?.dataset.audio;
@@ -638,6 +666,11 @@ const App = (function() {
     // No phase states to reset — video and audio start automatically
   }
 
+  function animateTo(idx, direction) {
+    if (idx < 0 || idx >= frames.length) return;
+    showFrame(idx, direction);
+  }
+
   function nextFrame() {
     const frameData = frames[currentFrameIdx];
     if (frameData && frameData.game) {
@@ -645,17 +678,15 @@ const App = (function() {
       return;
     }
     if (currentFrameIdx < frames.length - 1) {
-      showTransition(() => showFrame(currentFrameIdx + 1));
+      animateTo(currentFrameIdx + 1, 'next');
     } else {
       showEndScreen();
     }
   }
 
   function advanceFromGame() {
-    // Called after game completes or is skipped
-    // Bypass game check and go straight to next frame
     if (currentFrameIdx < frames.length - 1) {
-      showTransition(() => showFrame(currentFrameIdx + 1));
+      animateTo(currentFrameIdx + 1, 'next');
     } else {
       showEndScreen();
     }
@@ -663,7 +694,7 @@ const App = (function() {
 
   function prevFrame() {
     if (currentFrameIdx > 0) {
-      showFrame(currentFrameIdx - 1);
+      animateTo(currentFrameIdx - 1, 'prev');
     }
   }
 
@@ -770,7 +801,7 @@ const App = (function() {
 
     // Bind events on newly rendered elements
     bindFrameEvents();
-    showFrame(0);
+    showFrame(0, null);
   }
 
   function backToMenu() {
@@ -865,7 +896,8 @@ const App = (function() {
         if (!bar || !bar.classList.contains('narrator-bar')) return;
         bar.classList.toggle('collapsed');
         const isCollapsed = bar.classList.contains('collapsed');
-        btn.textContent = isCollapsed ? '+' : '−';
+        const ntIcon = btn.querySelector('.nt-icon');
+        if (ntIcon) ntIcon.textContent = isCollapsed ? '+' : '−';
         btn.title = isCollapsed ? 'Развернуть' : 'Свернуть';
       };
       btn.addEventListener('click', toggle);
@@ -903,7 +935,66 @@ const App = (function() {
   // ═══════════════════════════════════════════════════════════
   // INIT
   // ═══════════════════════════════════════════════════════════
+  function initSwipe() {
+    const container = frameContainer || document.getElementById('frame-container');
+    if (!container) return;
+
+    let startY = 0, startX = 0, isDragging = false;
+    const SWIPE_THRESHOLD = 80;
+
+    function onStart(y, x) {
+      startY = y;
+      startX = x;
+      isDragging = true;
+    }
+    function onMove(y, x) {
+      if (!isDragging) return;
+      // Optional real-time drag feedback could go here
+    }
+    function onEnd(y, x) {
+      if (!isDragging) return;
+      isDragging = false;
+      const deltaY = y - startY;
+      const deltaX = x - startX;
+      // Ignore horizontal swipes
+      if (Math.abs(deltaX) > Math.abs(deltaY)) return;
+      if (deltaY < -SWIPE_THRESHOLD) nextFrame();
+      else if (deltaY > SWIPE_THRESHOLD) prevFrame();
+    }
+
+    container.addEventListener('touchstart', e => {
+      // Ignore if touch starts inside interactive elements
+      if (e.target.closest('.narrator-bar, .transition-popup, .video-play-btn, .audio-btn, .dialogue-audio-btn, .nav-btn')) return;
+      onStart(e.touches[0].clientY, e.touches[0].clientX);
+    }, {passive: true});
+    container.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      onMove(e.touches[0].clientY, e.touches[0].clientX);
+    }, {passive: true});
+    container.addEventListener('touchend', e => {
+      if (!isDragging) return;
+      onEnd(e.changedTouches[0].clientY, e.changedTouches[0].clientX);
+    }, {passive: true});
+
+    // Mouse support for desktop
+    container.addEventListener('mousedown', e => {
+      if (e.target.closest('.narrator-bar, .transition-popup, .video-play-btn, .audio-btn, .dialogue-audio-btn, .nav-btn')) return;
+      onStart(e.clientY, e.clientX);
+    });
+    container.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      onMove(e.clientY, e.clientX);
+    });
+    container.addEventListener('mouseup', e => {
+      if (!isDragging) return;
+      onEnd(e.clientY, e.clientX);
+    });
+    container.addEventListener('mouseleave', () => { isDragging = false; });
+  }
+
   function init() {
+    initSwipe();
+
     // Splash screen
     if (startBtn && splash) {
       startBtn.addEventListener('click', () => {
