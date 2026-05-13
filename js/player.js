@@ -95,8 +95,9 @@ const PlayerProfile = (function() {
   /* ─── UI ─── */
   function renderBadge() {
     const p = load();
-    const badge = document.querySelector('.profile-coins-val');
-    if (badge) badge.textContent = p.coins;
+    document.querySelectorAll('.profile-coins-val').forEach(badge => {
+      badge.textContent = p.coins;
+    });
   }
 
   function openModal() {
@@ -140,9 +141,10 @@ const PlayerProfile = (function() {
   function init() {
     renderBadge();
 
-    // Bind profile button
-    const btn = document.querySelector('.profile-btn');
-    if (btn) btn.addEventListener('click', openModal);
+    // Bind profile buttons (main menu + episode viewer)
+    document.querySelectorAll('.profile-btn').forEach(btn => {
+      btn.addEventListener('click', openModal);
+    });
 
     // Bind close button inside modal
     const closeBtn = document.querySelector('.profile-modal-close');

@@ -340,6 +340,8 @@ const App = (function() {
   // ═══════════════════════════════════════════════════════════
   const mainMenu = document.getElementById('main-menu');
   const episodeViewer = document.getElementById('episode-viewer');
+  const splash = document.getElementById('splash');
+  const startBtn = document.getElementById('startBtn');
   const frameContainer = document.getElementById('frame-container');
   const progressFill = document.querySelector('.progress-fill');
   const frameCounter = document.querySelector('.frame-counter');
@@ -593,9 +595,10 @@ const App = (function() {
     const allAudio = [];
     if (audioSrc) allAudio.push(audioSrc);
     if (dialogueAudios.length) allAudio.push(...dialogueAudios);
+    console.log('Frame', idx, 'audio queue:', allAudio);
 
     if (allAudio.length > 0) {
-      setTimeout(() => playAudioSequence(allAudio, () => showTransitionPopup(idx)), 300);
+      playAudioSequence(allAudio, () => showTransitionPopup(idx));
     } else {
       setTimeout(() => showTransitionPopup(idx), 2500);
     }
@@ -604,7 +607,12 @@ const App = (function() {
     const video = frame.querySelector('video');
     if (video) {
       video.muted = true;
-      video.play().catch(() => {});
+      video.play().catch(err => console.warn('Video autoplay blocked:', err));
+    }
+
+    // Update profile badge in viewer
+    if (typeof PlayerProfile !== 'undefined' && PlayerProfile.renderBadge) {
+      PlayerProfile.renderBadge();
     }
 
     // Start typewriter narration
@@ -842,6 +850,21 @@ const App = (function() {
   // INIT
   // ═══════════════════════════════════════════════════════════
   function init() {
+    // Splash screen
+    if (startBtn && splash) {
+      startBtn.addEventListener('click', () => {
+        // Initialize audio context on user gesture
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) { const ac = new AudioContext(); if (ac.state === 'suspended') ac.resume(); }
+        } catch(e) {}
+        splash.classList.add('hide');
+        setTimeout(() => { splash.style.display = 'none'; }, 600);
+        if (mainMenu) mainMenu.style.display = 'flex';
+      });
+      startBtn.addEventListener('touchend', (e) => { e.preventDefault(); startBtn.click(); }, {passive: false});
+    }
+
     // Chapter cards
     document.querySelectorAll('.chapter-card').forEach(card => {
       card.addEventListener('click', () => {

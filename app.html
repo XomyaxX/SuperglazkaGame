@@ -13,9 +13,18 @@
 <body>
 
 <!-- ═══════════════════════════════════════════════════════════
+     SPLASH SCREEN
+     ═══════════════════════════════════════════════════════════ -->
+<div id="splash">
+  <div class="sp-title">СУПЕРГЛАЗКА</div>
+  <div class="sp-sub">Развлекательно-образовательный<br>интерактивный комикс</div>
+  <button class="sp-btn" id="startBtn">▶ Начать</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
      MAIN MENU
      ═══════════════════════════════════════════════════════════ -->
-<div id="main-menu">
+<div id="main-menu" style="display:none">
   <button class="profile-btn" title="Профиль">
     <span>👤</span>
     <span class="profile-coins-val">0</span>
@@ -84,6 +93,11 @@
   <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
   <div class="frame-counter">Кадр 1 из 12</div>
   <button class="back-btn" title="Назад в меню">←</button>
+  <button class="profile-btn viewer-profile-btn" title="Профиль">
+    <span>👤</span>
+    <span class="profile-coins-val">0</span>
+    <span>🪙</span>
+  </button>
 
   <!-- Dynamic frame container -->
   <div id="frame-container"></div>
