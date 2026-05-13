@@ -706,7 +706,7 @@ const RunnerGame = (function(){
       // Быстрый отклик на кнопку "Пропустить" с телефона
       const skipBtn = document.querySelector('#game-overlay-runner .runner-controls button');
       if (skipBtn) {
-        skipBtn.addEventListener('touchstart', (e) => { e.preventDefault(); closeRunner(false); }, {passive: false});
+        skipBtn.addEventListener('touchstart', (e) => { e.preventDefault(); closeRunner(true); }, {passive: false});
       }
     }, 50);
   };

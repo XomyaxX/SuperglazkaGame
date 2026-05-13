@@ -883,7 +883,7 @@ const GymGame = (function(){
       // Быстрый отклик на кнопку "Пропустить" с телефона
       const skipBtn = document.querySelector('#game-overlay-gym .skip-btn');
       if (skipBtn) {
-        skipBtn.addEventListener('touchstart', (e) => { e.preventDefault(); closeGym(false); }, {passive: false});
+        skipBtn.addEventListener('touchstart', (e) => { e.preventDefault(); closeGym(true); }, {passive: false});
       }
     }, 50);
   };

@@ -137,7 +137,7 @@
       <div class="runner-stat"><div class="runner-stat-val">⭐</div><div class="runner-stat-lbl">медленно</div></div>
       <div class="runner-stat"><div class="runner-stat-val">🛡️</div><div class="runner-stat-lbl">щит</div></div>
     </div>
-    <button onclick="closeRunner(false)" style="background:none;border:1px solid rgba(255,255,255,.2);border-radius:30px;color:rgba(255,255,255,.5);padding:10px 28px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Пропустить</button>
+    <button onclick="closeRunner(true)" style="background:none;border:1px solid rgba(255,255,255,.2);border-radius:30px;color:rgba(255,255,255,.5);padding:10px 28px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Пропустить</button>
   </div>
 </div>
 
@@ -195,7 +195,7 @@
   <div class="player-vanya" id="player-vanya"><img src="assets/images/Vanya.png" alt="Ваня"><div class="player-charge-indicator" id="player-charge"></div></div>
   <div class="attack-effects" id="attack-effects"></div>
   <div class="phase-controls" id="phase-container"></div>
-  <button class="skip-btn" onclick="closeGym(false)">Пропустить ▸</button>
+  <button class="skip-btn" onclick="closeGym(true)">Пропустить ▸</button>
 </div>
 
 <div class="overlay" id="win-overlay">
@@ -260,7 +260,7 @@
     <div class="blink-hint" id="blink-hint">Кликай по экрану, чтобы моргать!</div>
     <div class="blink-progress-bar"><div class="blink-progress-fill" id="blink-progress" style="width:0%"></div></div>
   </div>
-  <button class="skip-btn" onclick="closeBlink(false)">Пропустить ▸</button>
+  <button class="skip-btn" onclick="closeBlink(true)">Пропустить ▸</button>
 </div>
 
 <div class="overlay" id="blink-win-overlay">
@@ -282,7 +282,7 @@
     <div class="tracker-hint" id="tracker-hint">Следи за шариком глазами 👀</div>
     <div class="tracker-progress-bar"><div class="tracker-progress-fill" id="tracker-progress" style="width:0%"></div></div>
   </div>
-  <button class="skip-btn" onclick="closeTracker(false)">Пропустить ▸</button>
+  <button class="skip-btn" onclick="closeTracker(true)">Пропустить ▸</button>
 </div>
 
 <div class="overlay" id="tracker-win-overlay">
