@@ -937,6 +937,35 @@ body {
   display: none !important;
 }
 
+/* Touch sparkle effect */
+.sparkle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 100;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #fff 0%, #fbbf24 40%, transparent 70%);
+  border-radius: 50%;
+  animation: sparkleAnim .7s ease-out forwards;
+}
+.sparkle.star {
+  background: none;
+  width: auto;
+  height: auto;
+  font-size: 14px;
+  color: #fbbf24;
+  text-shadow: 0 0 6px rgba(251, 191, 36, 0.8);
+  animation: sparkleStarAnim .7s ease-out forwards;
+}
+@keyframes sparkleAnim {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--sx), var(--sy)) scale(0); opacity: 0; }
+}
+@keyframes sparkleStarAnim {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: translate(var(--sx), var(--sy)) scale(0) rotate(180deg); opacity: 0; }
+}
+
 /* Swipe hint */
 .swipe-hint {
   position: absolute;

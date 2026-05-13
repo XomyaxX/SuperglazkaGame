@@ -968,6 +968,26 @@ const App = (function() {
   // ═══════════════════════════════════════════════════════════
   // INIT
   // ═══════════════════════════════════════════════════════════
+  function createSparkles(x, y) {
+    const colors = ['#fbbf24', '#f59e0b', '#fff', '#a855f7', '#06b6d4'];
+    const count = 6 + Math.floor(Math.random() * 5);
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      const isStar = Math.random() > 0.5;
+      el.className = isStar ? 'sparkle star' : 'sparkle';
+      if (isStar) el.textContent = '✨';
+      else el.style.background = `radial-gradient(circle, ${colors[Math.floor(Math.random() * colors.length)]} 0%, transparent 70%)`;
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 20 + Math.random() * 50;
+      el.style.setProperty('--sx', Math.cos(angle) * dist + 'px');
+      el.style.setProperty('--sy', Math.sin(angle) * dist + 'px');
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 800);
+    }
+  }
+
   function initSwipe() {
     const container = frameContainer || document.getElementById('frame-container');
     if (!container) return;
@@ -997,7 +1017,8 @@ const App = (function() {
 
     container.addEventListener('touchstart', e => {
       // Ignore if touch starts inside interactive elements
-      if (e.target.closest('.narrator-bar, .transition-popup, .video-play-btn, .audio-btn, .dialogue-audio-btn, .nav-btn')) return;
+      if (e.target.closest('.narrator-bar, .transition-popup, .video-play-btn, .audio-btn, .dialogue-audio-btn, .nav-btn, .game-chip, .narrator-toggle')) return;
+      createSparkles(e.touches[0].clientX, e.touches[0].clientY);
       onStart(e.touches[0].clientY, e.touches[0].clientX);
     }, {passive: true});
     container.addEventListener('touchmove', e => {
@@ -1011,7 +1032,8 @@ const App = (function() {
 
     // Mouse support for desktop
     container.addEventListener('mousedown', e => {
-      if (e.target.closest('.narrator-bar, .transition-popup, .video-play-btn, .audio-btn, .dialogue-audio-btn, .nav-btn')) return;
+      if (e.target.closest('.narrator-bar, .transition-popup, .video-play-btn, .audio-btn, .dialogue-audio-btn, .nav-btn, .game-chip, .narrator-toggle')) return;
+      createSparkles(e.clientX, e.clientY);
       onStart(e.clientY, e.clientX);
     });
     container.addEventListener('mousemove', e => {
