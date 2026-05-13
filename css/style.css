@@ -1002,3 +1002,245 @@ body {
     font-size: 12px;
   }
 }
+
+
+/* ═══════════════════════════════════════════════════════════
+   PROFILE
+   ═══════════════════════════════════════════════════════════ */
+.profile-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 210;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-xl);
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  transition: all .2s var(--ease-spring);
+}
+
+.profile-btn:hover {
+  transform: scale(1.05);
+  border-color: var(--neon-purple);
+  box-shadow: var(--shadow-neon-purple);
+}
+
+.profile-coins-val {
+  color: #f59e0b;
+  font-weight: 900;
+}
+
+#profile-modal {
+  background: rgba(10, 6, 24, 0.92);
+  z-index: 250;
+}
+
+#profile-modal .profile-card {
+  background: rgba(20, 12, 40, 0.9);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  width: 90%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+.profile-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 20px;
+  cursor: pointer;
+  transition: color .2s;
+}
+
+.profile-modal-close:hover {
+  color: #fff;
+}
+
+.profile-avatar {
+  font-size: 56px;
+  line-height: 1;
+}
+
+.profile-nickname {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 10px 16px;
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  width: 100%;
+  max-width: 240px;
+}
+
+.profile-nickname:focus {
+  border-color: var(--neon-purple);
+}
+
+.profile-coins-big {
+  font-family: 'Comfortaa', cursive;
+  font-size: 36px;
+  color: #f59e0b;
+  text-shadow: 0 2px 12px rgba(245, 158, 11, 0.4);
+}
+
+.profile-section-title {
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--neon-amber);
+  align-self: flex-start;
+  margin-top: 8px;
+}
+
+.profile-episodes,
+.profile-games {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BLINK GAME
+   ═══════════════════════════════════════════════════════════ */
+#game-overlay-blink {
+  background: linear-gradient(180deg, #1a0f2e 0%, #0f0a1e 100%);
+  padding: 18px;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+#blink-canvas {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(160deg, #1a0f2e, #0f0a1e);
+  touch-action: none;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.blink-controls {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.blink-hint {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 700;
+  text-align: center;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+}
+
+.blink-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.blink-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #06b6d4, #a855f7);
+  transition: width .2s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TRACKER GAME
+   ═══════════════════════════════════════════════════════════ */
+#game-overlay-tracker {
+  background: linear-gradient(180deg, #0f0a1e 0%, #1a0f2e 100%);
+  padding: 18px;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+#tracker-canvas {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.3);
+  touch-action: none;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.tracker-controls {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.tracker-hint {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 700;
+  text-align: center;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+}
+
+.tracker-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tracker-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #a855f7, #06b6d4);
+  transition: width .3s ease;
+}

@@ -53,7 +53,7 @@ const App = (function() {
           videoSrc: "assets/videos/Вид_3.mp4",
           dialogues: [],
           transitionText: "Но скромные и воспитанные видеаляне не всесильны. Однажды, вокруг их планеты стало сгущаться Великое Зло.",
-          game: null
+          game: 'blink'
         },
         {
           id: 3.5,
@@ -144,7 +144,7 @@ const App = (function() {
             { speaker: "sovet", text: "— Н-не сходится с р-расчётами! — забормотал он. — Неужели та самая погрешность в 0,0000000000000001 процента?! О господи, ск-сколько же там нулей…", position: "br", style: "top:90%;right:6%" }
           ],
           transitionText: "Жидкость в сосуде засветилась. Дым рассеялся... но вода осталась точно такой же, как и была!",
-          game: null
+          game: 'tracker'
         },
         {
           id: 8,
@@ -634,6 +634,11 @@ const App = (function() {
   }
 
   function nextFrame() {
+    const frameData = frames[currentFrameIdx];
+    if (frameData && frameData.game) {
+      startGame(frameData.game);
+      return;
+    }
     if (currentFrameIdx < frames.length - 1) {
       showTransition(() => showFrame(currentFrameIdx + 1));
     } else {
@@ -675,6 +680,14 @@ const App = (function() {
     } else if (gameType === 'gym') {
       showGameTransition('⚔️ Ваня против Ленивуса!', 'Используй три супер-атаки: Лазер, Прицел и Слёзы.', () => {
         if (typeof startGymGame === 'function') startGymGame();
+      });
+    } else if (gameType === 'blink') {
+      showGameTransition('👁️ Моргайка!', 'Тренируем глазные мышцы: моргай, жмурься и распахивай глаза!', () => {
+        if (typeof startBlinkGame === 'function') startBlinkGame();
+      });
+    } else if (gameType === 'tracker') {
+      showGameTransition('🔮 Следи за шариком!', 'Следи глазами за светящимся шариком — тренируем внимание!', () => {
+        if (typeof startTrackerGame === 'function') startTrackerGame();
       });
     }
   }
@@ -743,6 +756,9 @@ const App = (function() {
 
     if (mainMenu) mainMenu.classList.add('hidden');
     if (episodeViewer) episodeViewer.classList.add('active');
+
+    // Update profile badge
+    if (typeof PlayerProfile !== 'undefined') PlayerProfile.renderBadge();
 
     // Bind events on newly rendered elements
     bindFrameEvents();

@@ -16,6 +16,12 @@
      MAIN MENU
      ═══════════════════════════════════════════════════════════ -->
 <div id="main-menu">
+  <button class="profile-btn" title="Профиль">
+    <span>👤</span>
+    <span class="profile-coins-val">0</span>
+    <span>🪙</span>
+  </button>
+
   <div class="menu-title">СУПЕРГЛАЗКА</div>
   <div class="menu-sub">Интерактивный комикс</div>
 
@@ -211,6 +217,67 @@
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════
+     PROFILE MODAL
+     ═══════════════════════════════════════════════════════════ -->
+<div class="overlay" id="profile-modal">
+  <div class="profile-card">
+    <button class="profile-modal-close">✕</button>
+    <div class="profile-avatar">👤</div>
+    <input type="text" class="profile-nickname" value="Игрок" maxlength="20">
+    <div class="profile-coins-big">0 <span>🪙</span></div>
+    <div class="profile-section-title">📖 Эпизоды</div>
+    <div class="profile-episodes"></div>
+    <div class="profile-section-title">🎮 Мини-игры</div>
+    <div class="profile-games"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     BLINK GAME OVERLAY
+     ═══════════════════════════════════════════════════════════ -->
+<div class="overlay" id="game-overlay-blink">
+  <div class="game-header">
+    <div class="score-pill"><span class="score-lbl">Раунд</span><span class="score-val" id="blink-round">1/3</span></div>
+    <div class="score-pill"><span class="score-lbl">Время</span><span class="score-val" id="blink-timer">5</span></div>
+  </div>
+  <canvas id="blink-canvas" width="400" height="300"></canvas>
+  <div class="blink-controls">
+    <div class="blink-hint" id="blink-hint">Кликай по экрану, чтобы моргать!</div>
+    <div class="blink-progress-bar"><div class="blink-progress-fill" id="blink-progress" style="width:0%"></div></div>
+  </div>
+  <button class="skip-btn" onclick="closeBlink(false)">Пропустить ▸</button>
+</div>
+
+<div class="overlay" id="blink-win-overlay">
+  <div class="win-stars"><span class="win-star">⭐</span><span class="win-star">⭐</span><span class="win-star">⭐</span></div>
+  <div class="win-title">Молодец!</div>
+  <div class="win-sub">Глаза в порядке!<br>+100 🪙</div>
+  <button class="win-btn" onclick="closeBlinkContinue()">Продолжить ➜</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TRACKER GAME OVERLAY
+     ═══════════════════════════════════════════════════════════ -->
+<div class="overlay" id="game-overlay-tracker">
+  <div class="game-header">
+    <div class="score-pill"><span class="score-lbl">Фаза</span><span class="score-val" id="tracker-phase">1/4</span></div>
+  </div>
+  <canvas id="tracker-canvas" width="500" height="400"></canvas>
+  <div class="tracker-controls">
+    <div class="tracker-hint" id="tracker-hint">Следи за шариком глазами 👀</div>
+    <div class="tracker-progress-bar"><div class="tracker-progress-fill" id="tracker-progress" style="width:0%"></div></div>
+  </div>
+  <button class="skip-btn" onclick="closeTracker(false)">Пропустить ▸</button>
+</div>
+
+<div class="overlay" id="tracker-win-overlay">
+  <div class="win-stars"><span class="win-star">⭐</span><span class="win-star">⭐</span><span class="win-star">⭐</span></div>
+  <div class="win-title">Отлично!</div>
+  <div class="win-sub">Глаза отдохнули!<br>+100 🪙</div>
+  <button class="win-btn" onclick="closeTrackerContinue()">Продолжить ➜</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
      TRANSITION OVERLAY
      ═══════════════════════════════════════════════════════════ -->
 <div id="transition-overlay">
@@ -232,8 +299,11 @@
 <!-- ═══════════════════════════════════════════════════════════
      SCRIPTS
      ═══════════════════════════════════════════════════════════ -->
+<script src="js/player.js"></script>
 <script src="js/app.js"></script>
 <script src="js/game_runner.js"></script>
 <script src="js/game_gymnastics.js"></script>
+<script src="js/game_blink.js"></script>
+<script src="js/game_tracker.js"></script>
 </body>
 </html>
