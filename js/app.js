@@ -353,10 +353,13 @@ const App = (function() {
   function renderFrame(frameData, idx, total) {
     const hasVideo = !!frameData.videoSrc;
     const videoContent = hasVideo
-      ? `<video src="${frameData.videoSrc}" playsinline preload="auto" style="width:100%;height:100%;object-fit:cover"></video>
-         <div class="video-play-overlay">
-           <button class="video-play-btn">▶</button>
-         </div>`
+      ? `<img class="frame-preview" src="${escapeHtml(frameData.bgImage)}" alt="">
+         <div class="frame-preview-info">
+           <div class="frame-preview-num">Кадр ${idx + 1}</div>
+           <div class="frame-preview-title">${escapeHtml(frameData.title)}</div>
+         </div>
+         <button class="video-play-btn">▶</button>
+         <video src="${frameData.videoSrc}" playsinline preload="auto"></video>`
       : `<div class="video-placeholder">
           <div class="ph-icon">🎬</div>
           <div class="ph-text">Видео: ${escapeHtml(frameData.title)}</div>
@@ -380,9 +383,9 @@ const App = (function() {
         </button>` : ''}
 
         <div class="narrator-bar">
-          <button class="narrator-toggle" title="Свернуть">−</button>
           <span class="narrator-content"></span><span class="narrator-cursor">|</span>
         </div>
+        <button class="narrator-toggle" title="Свернуть">−</button>
 
         <div class="frame-nav-bar">
           <button class="nav-btn nav-prev" ${idx === 0 ? 'disabled' : ''}>← Назад</button>
@@ -588,11 +591,15 @@ const App = (function() {
     const frame = allFrames[idx];
     if (!frame) return;
 
-    // Reset video state for this frame
+    // Reset video preview state for this frame
+    const preview = frame.querySelector('.frame-preview');
+    const previewInfo = frame.querySelector('.frame-preview-info');
+    const playBtn = frame.querySelector('.video-play-btn');
     const video = frame.querySelector('video');
-    const videoOverlay = frame.querySelector('.video-play-overlay');
-    if (video) { video.pause(); video.currentTime = 0; }
-    if (videoOverlay) { videoOverlay.style.display = 'flex'; }
+    if (preview) preview.classList.remove('hidden');
+    if (previewInfo) previewInfo.classList.remove('hidden');
+    if (playBtn) playBtn.style.display = 'flex';
+    if (video) { video.classList.remove('visible'); video.pause(); video.currentTime = 0; }
 
     // Reset narrator bar collapse state
     const narratorBar = frame.querySelector('.narrator-bar');
@@ -810,16 +817,21 @@ const App = (function() {
       btn.addEventListener('touchstart', (e) => { e.preventDefault(); playDialogues(); }, {passive: false});
     });
 
-    // Video play button (overlay)
+    // Video play button
     document.querySelectorAll('.video-play-btn').forEach(btn => {
       const playVideo = () => {
-        const overlay = btn.closest('.video-play-overlay');
-        const video = overlay?.closest('.video-layer')?.querySelector('video');
+        const layer = btn.closest('.video-layer');
+        const preview = layer?.querySelector('.frame-preview');
+        const previewInfo = layer?.querySelector('.frame-preview-info');
+        const video = layer?.querySelector('video');
+        if (preview) preview.classList.add('hidden');
+        if (previewInfo) previewInfo.classList.add('hidden');
         if (video) {
+          video.classList.add('visible');
           video.muted = false;
           video.play().catch(() => {});
-          overlay.style.display = 'none';
         }
+        btn.style.display = 'none';
       };
       btn.addEventListener('click', playVideo);
       btn.addEventListener('touchstart', (e) => { e.preventDefault(); playVideo(); }, {passive: false});
@@ -835,16 +847,22 @@ const App = (function() {
         }
       });
       video.addEventListener('ended', () => {
-        const overlay = video.closest('.video-layer')?.querySelector('.video-play-overlay');
-        if (overlay) overlay.style.display = 'flex';
+        const layer = video.closest('.video-layer');
+        const preview = layer?.querySelector('.frame-preview');
+        const previewInfo = layer?.querySelector('.frame-preview-info');
+        const playBtn = layer?.querySelector('.video-play-btn');
+        video.classList.remove('visible');
+        if (preview) preview.classList.remove('hidden');
+        if (previewInfo) previewInfo.classList.remove('hidden');
+        if (playBtn) playBtn.style.display = 'flex';
       });
     });
 
     // Narrator bar toggle
     document.querySelectorAll('.narrator-toggle').forEach(btn => {
       const toggle = () => {
-        const bar = btn.closest('.narrator-bar');
-        if (!bar) return;
+        const bar = btn.previousElementSibling;
+        if (!bar || !bar.classList.contains('narrator-bar')) return;
         bar.classList.toggle('collapsed');
         const isCollapsed = bar.classList.contains('collapsed');
         btn.textContent = isCollapsed ? '+' : '−';
