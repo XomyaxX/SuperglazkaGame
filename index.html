@@ -4,306 +4,303 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0a0618">
-<title>Суперглазка — Интерактивный комикс</title>
+<meta name="description" content="Суперглазка — интерактивный образовательный комикс о здоровье глаз с мини-играми для детей. Спаси планету Видеаль вместе с супергероиней!">
+<title>Суперглазка — Интерактивный комикс о здоровье глаз</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Comfortaa:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/landing.css">
 </head>
 <body>
 
 <!-- ═══════════════════════════════════════════════════════════
-     MAIN MENU
+     NAVIGATION
      ═══════════════════════════════════════════════════════════ -->
-<div id="main-menu">
-  <button class="profile-btn" title="Профиль">
-    <span>👤</span>
-    <span class="profile-coins-val">0</span>
-    <span>🪙</span>
-  </button>
+<nav class="land-nav" id="landNav">
+  <div class="land-logo">👁️ СУПЕРГЛАЗКА</div>
+  <div class="land-nav-links">
+    <a href="#about">О комиксе</a>
+    <a href="#features">Особенности</a>
+    <a href="#episodes">Эпизоды</a>
+    <a href="#characters">Герои</a>
+    <a href="app.html" class="land-nav-cta">▶ Начать</a>
+  </div>
+  <button class="land-nav-toggle" id="navToggle" aria-label="Меню">☰</button>
+</nav>
 
-  <div class="menu-title">СУПЕРГЛАЗКА</div>
-  <div class="menu-sub">Интерактивный комикс</div>
+<!-- Mobile Menu -->
+<div class="land-nav-mobile" id="navMobile">
+  <button class="land-nav-mobile-close" id="navClose" aria-label="Закрыть">✕</button>
+  <a href="#about" class="nav-mobile-link">О комиксе</a>
+  <a href="#features" class="nav-mobile-link">Особенности</a>
+  <a href="#episodes" class="nav-mobile-link">Эпизоды</a>
+  <a href="#characters" class="nav-mobile-link">Герои</a>
+  <a href="app.html" class="land-nav-cta">▶ Начать</a>
+</div>
 
-  <div class="chapters-grid">
-    <!-- Episode 1 -->
-    <div class="chapter-card" data-episode="1">
-      <svg class="chapter-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="45" stroke="url(#grad1)" stroke-width="2" fill="rgba(168,85,247,0.1)"/>
-        <ellipse cx="50" cy="50" rx="28" ry="20" stroke="url(#grad1)" stroke-width="2.5" fill="rgba(6,182,212,0.15)"/>
-        <circle cx="50" cy="50" r="10" fill="url(#grad1)"/>
-        <circle cx="53" cy="47" r="3" fill="white" opacity="0.8"/>
-        <defs>
-          <linearGradient id="grad1" x1="0" y1="0" x2="100" y2="100">
-            <stop offset="0%" stop-color="#a855f7"/>
-            <stop offset="100%" stop-color="#06b6d4"/>
-          </linearGradient>
-        </defs>
-      </svg>
-      <div class="chapter-num">Эпизод 1</div>
-      <div class="chapter-name">Рождение героини</div>
-    </div>
-
-    <!-- Episode 2 -->
-    <div class="chapter-card" data-episode="2">
-      <svg class="chapter-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="45" stroke="url(#grad2)" stroke-width="2" fill="rgba(6,182,212,0.1)"/>
-        <ellipse cx="50" cy="50" rx="28" ry="20" stroke="url(#grad2)" stroke-width="2.5" fill="rgba(168,85,247,0.15)"/>
-        <circle cx="50" cy="50" r="10" fill="url(#grad2)"/>
-        <circle cx="53" cy="47" r="3" fill="white" opacity="0.8"/>
-        <defs>
-          <linearGradient id="grad2" x1="0" y1="0" x2="100" y2="100">
-            <stop offset="0%" stop-color="#06b6d4"/>
-            <stop offset="100%" stop-color="#a855f7"/>
-          </linearGradient>
-        </defs>
-      </svg>
-      <div class="chapter-num">Эпизод 2</div>
-      <div class="chapter-name">Кто я?</div>
-    </div>
-
-    <!-- Episode 3 (locked) -->
-    <div class="chapter-card locked" data-episode="3">
-      <svg class="chapter-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="45" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="rgba(255,255,255,0.03)"/>
-        <ellipse cx="50" cy="50" rx="28" ry="20" stroke="rgba(255,255,255,0.2)" stroke-width="2.5" fill="none"/>
-        <circle cx="50" cy="50" r="10" fill="rgba(255,255,255,0.2)"/>
-        <text x="50" y="78" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="10" font-family="Nunito" font-weight="800">🔒</text>
-      </svg>
-      <div class="chapter-num">Эпизод 3</div>
-      <div class="chapter-name">Скоро...</div>
-      <div class="chapter-badge">Заблокировано</div>
+<!-- ═══════════════════════════════════════════════════════════
+     HERO SECTION
+     ═══════════════════════════════════════════════════════════ -->
+<section class="land-hero" id="hero">
+  <canvas id="particle-canvas"></canvas>
+  <div class="land-hero-content">
+    <div class="land-hero-badge">✨ Новая глава уже доступна</div>
+    <h1 class="land-hero-title">СУПЕРГЛАЗКА</h1>
+    <p class="land-hero-sub">Интерактивный комикс о здоровье глаз. Спаси планету Видеаль вместе с супергероиней!</p>
+    <div class="land-hero-btns">
+      <a href="app.html" class="land-btn-primary">▶ Начать приключение</a>
+      <a href="#about" class="land-btn-secondary">Узнать больше</a>
     </div>
   </div>
-</div>
+  <a href="#about" class="land-hero-scroll">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    <span>Листай вниз</span>
+  </a>
+</section>
 
 <!-- ═══════════════════════════════════════════════════════════
-     EPISODE VIEWER
+     ABOUT SECTION
      ═══════════════════════════════════════════════════════════ -->
-<div id="episode-viewer">
-  <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
-  <div class="frame-counter">Кадр 1 из 12</div>
-  <button class="back-btn" title="Назад в меню">←</button>
-
-  <!-- Dynamic frame container -->
-  <div id="frame-container"></div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════
-     GAME TRANSITION OVERLAY
-     ═══════════════════════════════════════════════════════════ -->
-<div class="overlay" id="game-transition-overlay">
-  <div class="tr-badge"><span style="font-size:50px">🎮</span></div>
-  <div class="gt-title tr-title">Мини-игра!</div>
-  <div class="gt-sub tr-sub">Готовься к испытанию...</div>
-  <button class="gt-btn tr-btn">Играть! 🚀</button>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════
-     RUNNER GAME OVERLAYS (legacy compatibility)
-     ═══════════════════════════════════════════════════════════ -->
-<div class="overlay" id="tr-overlay-runner">
-  <div class="tr-badge"><span style="font-size:50px">🏃</span></div>
-  <div class="tr-title">Мини-игра!</div>
-  <div class="tr-sub">Помоги Суперглазке догнать Пикселька на столе!<br>Уворачивайся от посуды.</div>
-  <button class="tr-btn" onclick="startRunnerGame()">Играть! 🚀</button>
-</div>
-
-<div class="overlay" id="game-overlay-runner">
-  <div class="game-header">
-    <div class="score-pill"><span class="score-lbl">Уровень</span><span class="score-val" id="runner-time">1</span></div>
-    <div class="lives-val" id="runner-lives">❤️❤️❤️</div>
+<section class="land-section land-about" id="about">
+  <h2 class="land-section-title">О комиксе</h2>
+  <p class="land-section-sub">Погружение в волшебный мир, где здоровье глаз — главная суперсила</p>
+  <div class="land-about-card reveal">
+    <p>Далеко-далеко во Вселенной существует планета <span class="land-about-highlight">Видеаль</span> — мир, где каждый житель посвящает себя защите зрения детей на Земле. Но однажды планету угрожает поглотить Великая Тьма...</p>
+    <p>Из древнего ритуала появляется девочка с огромными голубыми глазами — <span class="land-about-highlight">Суперглазка</span>. В красном костюме с белым плащом она отправляется в путешествие, чтобы спасти Видеаль и научить детей заботиться о своих глазах.</p>
+    <p>Вместе с верными друзьями — Ваней, Мудрым Хрусталиком и Советником — она проходит через увлекательные приключения, мини-игры и тренировки для глаз. Каждый кадр озвучен, каждый выбор имеет значение!</p>
   </div>
-  <canvas id="runner-canvas" width="360" height="480"></canvas>
-  <div class="runner-controls">
-    <div class="runner-hint">👆 ТАП = прыжок · Два тапа = двойной прыжок</div>
-    <div class="runner-stats">
-      <div class="runner-stat"><div class="runner-stat-val">💚</div><div class="runner-stat-lbl">+жизнь</div></div>
-      <div class="runner-stat"><div class="runner-stat-val">⭐</div><div class="runner-stat-lbl">медленно</div></div>
-      <div class="runner-stat"><div class="runner-stat-val">🛡️</div><div class="runner-stat-lbl">щит</div></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FEATURES SECTION
+     ═══════════════════════════════════════════════════════════ -->
+<section class="land-section land-features" id="features">
+  <h2 class="land-section-title">Особенности</h2>
+  <p class="land-section-sub">Что делает Суперглазку уникальным проектом для детей</p>
+  <div class="land-features-grid">
+    <div class="land-feature-card reveal">
+      <div class="land-feature-icon">📖</div>
+      <div class="land-feature-title">Интерактивный комикс</div>
+      <div class="land-feature-desc">Каждый кадр — это полноэкранная панель с диалогами, озвучкой и видеовставками. Листай как сторис!</div>
     </div>
-    <button onclick="closeRunner(false)" style="background:none;border:1px solid rgba(255,255,255,.2);border-radius:30px;color:rgba(255,255,255,.5);padding:10px 28px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Пропустить</button>
+    <div class="land-feature-card reveal">
+      <div class="land-feature-icon">🎮</div>
+      <div class="land-feature-title">Мини-игры</div>
+      <div class="land-feature-desc">Тренируй глаза вместе с героями: бегалка, гимнастика, моргание и битва со злодеем Ленивусом!</div>
+    </div>
+    <div class="land-feature-card reveal">
+      <div class="land-feature-icon">🎧</div>
+      <div class="land-feature-title">Озвучка</div>
+      <div class="land-feature-desc">Профессиональная аудионаррация каждого кадра. Слушай историю, как аудиоспектакль!</div>
+    </div>
+    <div class="land-feature-card reveal">
+      <div class="land-feature-icon">🎬</div>
+      <div class="land-feature-title">Видео</div>
+      <div class="land-feature-desc">AI-генерированные видеовставки оживляют кадры комикса и погружают в атмосферу.</div>
+    </div>
   </div>
-</div>
-
-<div class="overlay" id="runner-stats-overlay">
-  <div class="stats-title">🏃 Погоня завершена!</div>
-  <div class="win-stars" style="margin:10px 0;">
-    <span class="win-star" id="runner-star-1">⭐</span>
-    <span class="win-star" id="runner-star-2">⭐</span>
-    <span class="win-star" id="runner-star-3">⭐</span>
-  </div>
-  <div class="stats-card">
-    <div class="stats-time" id="runner-stats-time">⏱️ Время: 0:00</div>
-    <div class="stats-section"><h3>❤️ Жизни</h3><div class="stat-row"><span>Осталось жизней:</span><span class="stat-value" id="runner-stats-lives">3/3</span></div></div>
-    <div class="stats-section"><h3>💎 Бонусы</h3><div class="stat-row"><span>Собрано:</span><span class="stat-value" id="runner-stats-bonuses">0</span></div></div>
-    <div class="stats-section"><h3>🎯 Результат</h3><div class="stat-row"><span>Дистанция:</span><span class="stat-value">2000м</span></div><div class="stat-row"><span>Статус:</span><span class="stat-value" id="runner-stats-status">Победа!</span></div></div>
-    <div class="total-score" id="runner-total-score">🏆 Оценка: ⭐⭐⭐</div>
-  </div>
-  <button class="tr-btn" onclick="showRunnerRegistration()" style="margin-top:20px;">Продолжить ➜</button>
-</div>
-
-<div class="overlay" id="runner-registration-overlay">
-  <div class="reg-title">🌟 Стань частью команды!</div>
-  <div class="reg-card">
-    <div class="reg-description">Зарегистрируйся, чтобы:<br>✨ Сохранить свой прогресс<br>🏅 Получать награды за победы<br>📖 Открыть следующую серию комикса<br>🎮 Участвовать в соревнованиях</div>
-    <form class="reg-form" id="runner-reg-form">
-      <input type="text" class="reg-input" id="runner-reg-nickname" placeholder="Придумай никнейм" required maxlength="20">
-      <input type="email" class="reg-input" id="runner-reg-email" placeholder="Email родителя" required>
-      <label class="reg-checkbox"><input type="checkbox" id="runner-reg-confirm" required><span>Родители разрешили играть</span></label>
-      <button type="submit" class="tr-btn" style="width:100%;">🚀 Зарегистрироваться</button>
-    </form>
-    <button class="reg-skip" onclick="skipRunnerRegistration()">Продолжить без регистрации →</button>
-  </div>
-</div>
+</section>
 
 <!-- ═══════════════════════════════════════════════════════════
-     GYM GAME OVERLAYS (legacy compatibility)
+     EPISODES SECTION
      ═══════════════════════════════════════════════════════════ -->
-<div class="overlay" id="tr-overlay-gym">
-  <div class="tr-badge"><span style="font-size:50px">⚔️</span></div>
-  <div class="tr-title">Ваня против Ленивуса!</div>
-  <div class="tr-sub">Помоги Ване победить Ленивуса!<br>Используй три супер-атаки: Лазер, Прицел и Слёзы.</div>
-  <button class="tr-btn" onclick="startGymGame()">В бой! 🚀</button>
-</div>
-
-<div class="overlay" id="game-overlay-gym">
-  <video class="boss-bg-video" id="boss-video" autoplay muted loop playsinline preload="auto">
-    <source src="assets/videos/lenivus.mp4" type="video/mp4">
-    <img src="assets/images/lenivus.png" class="boss-bg-video" alt="Ленивус">
-  </video>
-  <div class="boss-overlay-darken"></div>
-  <div class="gym-header-new">
-    <div class="boss-hp-display"><span class="boss-label">👁️ ЛЕНИВУС</span><div class="boss-hp-bar-large"><div class="boss-hp-fill-large" id="boss-hp-fill" style="width:100%"></div></div></div>
-    <div class="rays-counter-new"><span class="rays-label">Лучики</span><span class="rays-icons" id="gym-rays">⚪⚪⚪</span></div>
+<section class="land-section land-episodes" id="episodes">
+  <h2 class="land-section-title">Эпизоды</h2>
+  <p class="land-section-sub">Выбери, с чего начать своё путешествие</p>
+  <div class="land-episodes-grid">
+    <div class="land-episode-card reveal">
+      <img class="land-episode-img" src="assets/images/изб_1.png" alt="Эпизод 1 — Рождение героини" loading="lazy">
+      <div class="land-episode-body">
+        <div class="land-episode-num">Эпизод 1</div>
+        <div class="land-episode-name">Рождение героини</div>
+        <div class="land-episode-desc">Планета Видеаль в опасности. Древний ритуал призывает защитницу — девочку с суперсилой зрения.</div>
+        <a href="app.html" class="land-episode-btn">▶ Читать</a>
+      </div>
+    </div>
+    <div class="land-episode-card reveal">
+      <img class="land-episode-img" src="assets/images/изб_9.png" alt="Эпизод 2 — Кто я?" loading="lazy">
+      <div class="land-episode-body">
+        <div class="land-episode-num">Эпизод 2</div>
+        <div class="land-episode-name">Кто я?</div>
+        <div class="land-episode-desc">Суперглазка узнаёт о своей миссии. Тренировки, первые испытания и встреча с тьмой.</div>
+        <a href="app.html" class="land-episode-btn">▶ Читать</a>
+      </div>
+    </div>
+    <div class="land-episode-card locked reveal">
+      <div class="land-episode-badge">Скоро</div>
+      <img class="land-episode-img" src="assets/images/изб_18.png" alt="Эпизод 3 — Скоро" loading="lazy" style="filter: grayscale(0.6);">
+      <div class="land-episode-body">
+        <div class="land-episode-num">Эпизод 3</div>
+        <div class="land-episode-name">Великая битва</div>
+        <div class="land-episode-desc">Финальное противостояние с Великой Тьмой. Всё будущее планеты Видеаль в твоих руках!</div>
+        <div class="land-episode-lock">🔒 Скоро...</div>
+      </div>
+    </div>
   </div>
-  <div class="player-vanya" id="player-vanya"><img src="assets/images/Vanya.png" alt="Ваня"><div class="player-charge-indicator" id="player-charge"></div></div>
-  <div class="attack-effects" id="attack-effects"></div>
-  <div class="phase-controls" id="phase-container"></div>
-  <button class="skip-btn" onclick="closeGym(false)">Пропустить ▸</button>
-</div>
-
-<div class="overlay" id="win-overlay">
-  <div class="win-stars"><span class="win-star">⭐</span><span class="win-star">⭐</span><span class="win-star">⭐</span></div>
-  <div class="win-title" id="win-title">Отлично!</div>
-  <div class="win-sub" id="win-sub">Ты справился!<br>Продолжение в комиксе...</div>
-  <button class="win-btn" onclick="closeWinContinue()">Продолжить ➜</button>
-</div>
-
-<div class="overlay" id="stats-overlay">
-  <div class="stats-title">🎉 Отличная работа!</div>
-  <div class="stats-card">
-    <div class="stats-time" id="stats-time">⏱️ Время: 0:00</div>
-    <div class="stats-section"><h3>⚡ Солнечный Луч</h3><div class="stat-row"><span>Попаданий:</span><span class="stat-value" id="stats-p1-hits">0/8</span></div><div class="stat-row"><span>Точность:</span><span class="stat-value" id="stats-p1-acc">0%</span></div></div>
-    <div class="stats-section"><h3>🎯 Точный Прицел</h3><div class="stat-row"><span>Попаданий:</span><span class="stat-value" id="stats-p2-hits">0/5</span></div><div class="stat-row"><span>Среднее время наведения:</span><span class="stat-value" id="stats-p2-time">0с</span></div></div>
-    <div class="stats-section"><h3>💧 Слезный Водопад</h3><div class="stat-row"><span>Водопадов:</span><span class="stat-value" id="stats-p3-hits">0/4</span></div><div class="stat-row"><span>Всего морганий:</span><span class="stat-value" id="stats-p3-blinks">0</span></div></div>
-    <div class="total-score" id="stats-score">🏆 Общий счёт: 0</div>
-  </div>
-  <button class="tr-btn" onclick="showRegistration()" style="margin-top:20px;">Продолжить ➜</button>
-</div>
-
-<div class="overlay" id="registration-overlay">
-  <div class="reg-title">🌟 Стань частью команды!</div>
-  <div class="reg-card">
-    <div class="reg-description">Зарегистрируйся, чтобы:<br>✨ Сохранить свой прогресс<br>🏅 Получать награды за тренировки<br>📖 Открыть следующую серию комикса<br>🎮 Участвовать в соревнованиях</div>
-    <form class="reg-form" id="reg-form">
-      <input type="text" class="reg-input" id="reg-nickname" placeholder="Придумай никнейм" required maxlength="20">
-      <input type="email" class="reg-input" id="reg-email" placeholder="Email родителя" required>
-      <label class="reg-checkbox"><input type="checkbox" id="reg-confirm" required><span>Родители разрешили играть</span></label>
-      <button type="submit" class="tr-btn" style="width:100%;">🚀 Зарегистрироваться</button>
-    </form>
-    <button class="reg-skip" onclick="skipRegistration()">Продолжить без регистрации →</button>
-  </div>
-</div>
+</section>
 
 <!-- ═══════════════════════════════════════════════════════════
-     PROFILE MODAL
+     CHARACTERS SECTION
      ═══════════════════════════════════════════════════════════ -->
-<div class="overlay" id="profile-modal">
-  <div class="profile-card">
-    <button class="profile-modal-close">✕</button>
-    <div class="profile-avatar">👤</div>
-    <input type="text" class="profile-nickname" value="Игрок" maxlength="20">
-    <div class="profile-coins-big">0 <span>🪙</span></div>
-    <div class="profile-section-title">📖 Эпизоды</div>
-    <div class="profile-episodes"></div>
-    <div class="profile-section-title">🎮 Мини-игры</div>
-    <div class="profile-games"></div>
+<section class="land-section land-characters" id="characters">
+  <h2 class="land-section-title">Герои</h2>
+  <p class="land-section-sub">Познакомься с главными персонажами комикса</p>
+  <div class="land-char-grid">
+    <div class="land-char-card reveal">
+      <div class="land-char-avatar">
+        <img src="assets/images/hero.png" alt="Суперглазка">
+      </div>
+      <div class="land-char-name">Суперглазка</div>
+      <div class="land-char-role">Главная героиня</div>
+      <div class="land-char-desc">Девочка из древнего ритуала с суперсилой зрения. В красном костюме с белым плащом защищает детей.</div>
+    </div>
+    <div class="land-char-card reveal">
+      <div class="land-char-avatar">
+        <img src="assets/images/Vanya.png" alt="Ваня">
+      </div>
+      <div class="land-char-name">Ваня</div>
+      <div class="land-char-role">Верный друг</div>
+      <div class="land-char-desc">Земной мальчик, который первым поверил в Суперглазку. Помогает ей в миссии спасти глаза детей.</div>
+    </div>
+    <div class="land-char-card reveal">
+      <div class="land-char-avatar">
+        <img src="assets/images/изб_5.png" alt="Мудрый Хрусталик">
+      </div>
+      <div class="land-char-name">Мудрый Хрусталик</div>
+      <div class="land-char-role">Правитель Видеаля</div>
+      <div class="land-char-desc">Мудрый правитель планеты Видеаль. Провёл ритуал Призыва и стал наставником Суперглазки.</div>
+    </div>
+    <div class="land-char-card reveal">
+      <div class="land-char-avatar">
+        <img src="assets/images/lenivus.png" alt="Ленивус">
+      </div>
+      <div class="land-char-name">Ленивус</div>
+      <div class="land-char-role">Главный злодей</div>
+      <div class="land-char-desc">Великое Зло, угрожающее поглотить Видеаль. Его слабость — активные и здоровые глаза!</div>
+    </div>
   </div>
-</div>
+</section>
 
 <!-- ═══════════════════════════════════════════════════════════
-     BLINK GAME OVERLAY
+     CTA SECTION
      ═══════════════════════════════════════════════════════════ -->
-<div class="overlay" id="game-overlay-blink">
-  <div class="game-header">
-    <div class="score-pill"><span class="score-lbl">Раунд</span><span class="score-val" id="blink-round">1/3</span></div>
-    <div class="score-pill"><span class="score-lbl">Время</span><span class="score-val" id="blink-timer">5</span></div>
+<section class="land-cta" id="cta">
+  <h2 class="land-cta-title">Готов к приключению?</h2>
+  <p class="land-cta-sub">Начни читать комикс прямо сейчас — бесплатно и без регистрации</p>
+  <a href="app.html" class="land-btn-primary" style="font-size: 20px; padding: 20px 48px;">▶ Начать чтение</a>
+  <div class="land-cta-badges">
+    <div class="land-cta-badge">✅ Бесплатно</div>
+    <div class="land-cta-badge">👶 Для детей 6–12 лет</div>
+    <div class="land-cta-badge">📱 Работает на телефоне</div>
+    <div class="land-cta-badge">🎮 С мини-играми</div>
   </div>
-  <canvas id="blink-canvas" width="400" height="300"></canvas>
-  <div class="blink-controls">
-    <div class="blink-hint" id="blink-hint">Кликай по экрану, чтобы моргать!</div>
-    <div class="blink-progress-bar"><div class="blink-progress-fill" id="blink-progress" style="width:0%"></div></div>
-  </div>
-  <button class="skip-btn" onclick="closeBlink(false)">Пропустить ▸</button>
-</div>
-
-<div class="overlay" id="blink-win-overlay">
-  <div class="win-stars"><span class="win-star">⭐</span><span class="win-star">⭐</span><span class="win-star">⭐</span></div>
-  <div class="win-title">Молодец!</div>
-  <div class="win-sub">Глаза в порядке!<br>+100 🪙</div>
-  <button class="win-btn" onclick="closeBlinkContinue()">Продолжить ➜</button>
-</div>
+</section>
 
 <!-- ═══════════════════════════════════════════════════════════
-     TRACKER GAME OVERLAY
+     FOOTER
      ═══════════════════════════════════════════════════════════ -->
-<div class="overlay" id="game-overlay-tracker">
-  <div class="game-header">
-    <div class="score-pill"><span class="score-lbl">Фаза</span><span class="score-val" id="tracker-phase">1/4</span></div>
-  </div>
-  <canvas id="tracker-canvas" width="500" height="400"></canvas>
-  <div class="tracker-controls">
-    <div class="tracker-hint" id="tracker-hint">Следи за шариком глазами 👀</div>
-    <div class="tracker-progress-bar"><div class="tracker-progress-fill" id="tracker-progress" style="width:0%"></div></div>
-  </div>
-  <button class="skip-btn" onclick="closeTracker(false)">Пропустить ▸</button>
-</div>
-
-<div class="overlay" id="tracker-win-overlay">
-  <div class="win-stars"><span class="win-star">⭐</span><span class="win-star">⭐</span><span class="win-star">⭐</span></div>
-  <div class="win-title">Отлично!</div>
-  <div class="win-sub">Глаза отдохнули!<br>+100 🪙</div>
-  <button class="win-btn" onclick="closeTrackerContinue()">Продолжить ➜</button>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════
-     TRANSITION OVERLAY
-     ═══════════════════════════════════════════════════════════ -->
-<div id="transition-overlay">
-  <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
-    <circle cx="50" cy="50" r="40" stroke="url(#trGrad)" stroke-width="3" fill="none" opacity="0.5">
-      <animate attributeName="r" values="40;45;40" dur="2s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
-    </circle>
-    <defs>
-      <linearGradient id="trGrad" x1="0" y1="0" x2="100" y2="100">
-        <stop offset="0%" stop-color="#a855f7"/>
-        <stop offset="100%" stop-color="#06b6d4"/>
-      </linearGradient>
-    </defs>
-  </svg>
-  <div class="transition-text">Следующий кадр...</div>
-</div>
+<footer class="land-footer">
+  <p>Сделано с <span class="land-footer-heart">❤️</span> для защиты зрения детей · Суперглазка · 2025</p>
+</footer>
 
 <!-- ═══════════════════════════════════════════════════════════
      SCRIPTS
      ═══════════════════════════════════════════════════════════ -->
-<script src="js/player.js"></script>
-<script src="js/app.js"></script>
-<script src="js/game_runner.js"></script>
-<script src="js/game_gymnastics.js"></script>
-<script src="js/game_blink.js"></script>
-<script src="js/game_tracker.js"></script>
+<script>
+/* ─── PARTICLES ─── */
+(function() {
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let w, h;
+
+  function resize() {
+    w = canvas.width = canvas.offsetWidth;
+    h = canvas.height = canvas.offsetHeight;
+  }
+
+  function createParticles() {
+    particles = [];
+    const count = Math.min(Math.floor(w * h / 12000), 80);
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 2 + 0.5,
+        dx: (Math.random() - 0.5) * 0.3,
+        dy: (Math.random() - 0.5) * 0.3,
+        alpha: Math.random() * 0.5 + 0.2,
+        color: Math.random() > 0.5 ? '168, 85, 247' : '6, 182, 212'
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + p.color + ',' + p.alpha + ')';
+      ctx.fill();
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.x < 0 || p.x > w) p.dx *= -1;
+      if (p.y < 0 || p.y > h) p.dy *= -1;
+    });
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = 'rgba(168, 85, 247,' + (0.08 * (1 - dist / 120)) + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); createParticles(); });
+  resize();
+  createParticles();
+  draw();
+})();
+
+/* ─── NAV SCROLL EFFECT ─── */
+const nav = document.getElementById('landNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+/* ─── MOBILE NAV ─── */
+const navToggle = document.getElementById('navToggle');
+const navClose = document.getElementById('navClose');
+const navMobile = document.getElementById('navMobile');
+const navMobileLinks = document.querySelectorAll('.nav-mobile-link');
+
+navToggle.addEventListener('click', () => navMobile.classList.add('open'));
+navClose.addEventListener('click', () => navMobile.classList.remove('open'));
+navMobileLinks.forEach(link => {
+  link.addEventListener('click', () => navMobile.classList.remove('open'));
+});
+
+/* ─── SCROLL REVEAL ─── */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('revealed');
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
 </body>
 </html>
