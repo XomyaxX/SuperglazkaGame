@@ -351,29 +351,22 @@ const App = (function() {
   // RENDER FRAME
   // ═══════════════════════════════════════════════════════════
   function renderFrame(frameData, idx, total) {
-    const videoContent = frameData.videoSrc
-      ? `<video src="${frameData.videoSrc}" autoplay muted loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover"></video>`
+    const hasVideo = !!frameData.videoSrc;
+    const videoContent = hasVideo
+      ? `<video src="${frameData.videoSrc}" playsinline preload="auto" style="width:100%;height:100%;object-fit:cover"></video>
+         <div class="video-play-overlay">
+           <button class="video-play-btn">▶</button>
+         </div>`
       : `<div class="video-placeholder">
           <div class="ph-icon">🎬</div>
           <div class="ph-text">Видео: ${escapeHtml(frameData.title)}</div>
           <div class="ph-note">${escapeHtml(frameData.videoPrompt)}</div>
         </div>`;
 
-    const dialoguesHtml = frameData.dialogues.map((d, i) => `
-      <div class="speech-bubble tail-${d.position}" style="${d.style};max-width:46%">
-        <span class="speaker ${d.speaker}">${SPEAKER_NAMES[d.speaker] || d.speaker}</span>
-        ${escapeHtml(d.text)}
-      </div>
-    `).join('');
-
     return `
       <div class="frame" data-index="${idx}" style="display:${idx === 0 ? 'flex' : 'none'}">
         <div class="video-layer">
           ${videoContent}
-        </div>
-
-        <div class="dialogues-container">
-          ${dialoguesHtml}
         </div>
 
         <button class="audio-btn" data-audio="${escapeHtml(frameData.audioSrc || '')}" title="Озвучка рассказчика">
@@ -387,6 +380,7 @@ const App = (function() {
         </button>` : ''}
 
         <div class="narrator-bar">
+          <button class="narrator-toggle" title="Свернуть">−</button>
           <span class="narrator-content"></span><span class="narrator-cursor">|</span>
         </div>
 
@@ -594,6 +588,18 @@ const App = (function() {
     const frame = allFrames[idx];
     if (!frame) return;
 
+    // Reset video state for this frame
+    const video = frame.querySelector('video');
+    const videoOverlay = frame.querySelector('.video-play-overlay');
+    if (video) { video.pause(); video.currentTime = 0; }
+    if (videoOverlay) { videoOverlay.style.display = 'flex'; }
+
+    // Reset narrator bar collapse state
+    const narratorBar = frame.querySelector('.narrator-bar');
+    const narratorToggle = frame.querySelector('.narrator-toggle');
+    if (narratorBar) { narratorBar.classList.remove('collapsed'); }
+    if (narratorToggle) { narratorToggle.textContent = '−'; narratorToggle.title = 'Свернуть'; }
+
     // Auto-play audio narration + dialogue sequence
     const audioSrc = frame.querySelector('.audio-btn')?.dataset.audio;
     const dialogueAudios = frames[idx]?.dialogueAudio || [];
@@ -608,13 +614,6 @@ const App = (function() {
       setTimeout(() => showTransitionPopup(idx), 2500);
     }
 
-    // Auto-play video (always muted, only narrator audio plays)
-    const video = frame.querySelector('video');
-    if (video) {
-      video.muted = true;
-      video.play().catch(err => console.warn('Video autoplay blocked:', err));
-    }
-
     // Update profile badge in viewer
     if (typeof PlayerProfile !== 'undefined' && PlayerProfile.renderBadge) {
       PlayerProfile.renderBadge();
@@ -625,18 +624,6 @@ const App = (function() {
     const narrationText = frames[idx]?.narration || '';
     if (narratorContent && narrationText) {
       typeWriter(narrationText, narratorContent);
-    }
-
-    // Animate dialogue bubbles
-    const dialoguesContainer = frame.querySelector('.dialogues-container');
-    const bubbles = frame.querySelectorAll('.speech-bubble');
-    if (dialoguesContainer) {
-      dialoguesContainer.classList.add('active');
-      bubbles.forEach((b, i) => {
-        b.classList.remove('visible');
-        const id = setTimeout(() => b.classList.add('visible'), i * 600 + 800);
-        dialogueTimeouts.push(id);
-      });
     }
   }
 
@@ -823,17 +810,48 @@ const App = (function() {
       btn.addEventListener('touchstart', (e) => { e.preventDefault(); playDialogues(); }, {passive: false});
     });
 
-    // Video play/pause toggle
+    // Video play button (overlay)
+    document.querySelectorAll('.video-play-btn').forEach(btn => {
+      const playVideo = () => {
+        const overlay = btn.closest('.video-play-overlay');
+        const video = overlay?.closest('.video-layer')?.querySelector('video');
+        if (video) {
+          video.muted = false;
+          video.play().catch(() => {});
+          overlay.style.display = 'none';
+        }
+      };
+      btn.addEventListener('click', playVideo);
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); playVideo(); }, {passive: false});
+    });
+
+    // Video pause/play toggle on video itself
     document.querySelectorAll('.video-layer video').forEach(video => {
-      const toggle = () => {
+      video.addEventListener('click', () => {
         if (video.paused) {
           video.play().catch(() => {});
         } else {
           video.pause();
         }
+      });
+      video.addEventListener('ended', () => {
+        const overlay = video.closest('.video-layer')?.querySelector('.video-play-overlay');
+        if (overlay) overlay.style.display = 'flex';
+      });
+    });
+
+    // Narrator bar toggle
+    document.querySelectorAll('.narrator-toggle').forEach(btn => {
+      const toggle = () => {
+        const bar = btn.closest('.narrator-bar');
+        if (!bar) return;
+        bar.classList.toggle('collapsed');
+        const isCollapsed = bar.classList.contains('collapsed');
+        btn.textContent = isCollapsed ? '+' : '−';
+        btn.title = isCollapsed ? 'Развернуть' : 'Свернуть';
       };
-      video.addEventListener('click', toggle);
-      video.addEventListener('touchstart', (e) => { e.preventDefault(); toggle(); }, {passive: false});
+      btn.addEventListener('click', toggle);
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); toggle(); }, {passive: false});
     });
 
     // Transition popup buttons
