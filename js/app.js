@@ -380,6 +380,11 @@ const App = (function() {
           <span class="audio-icon">🔊</span>
           <div class="audio-wave"><span></span><span></span><span></span><span></span></div>
         </button>
+        ${(frameData.dialogueAudio?.length > 0) ? `
+        <button class="dialogue-audio-btn" title="Озвучить диалог">
+          <span>🗣️</span>
+          <span>Озвучить диалог</span>
+        </button>` : ''}
 
         <div class="narrator-bar">
           <span class="narrator-content"></span><span class="narrator-cursor">|</span>
@@ -803,6 +808,19 @@ const App = (function() {
       };
       btn.addEventListener('click', toggle);
       btn.addEventListener('touchstart', (e) => { e.preventDefault(); toggle(); }, {passive: false});
+    });
+
+    // Dialogue audio button
+    document.querySelectorAll('.dialogue-audio-btn').forEach(btn => {
+      const playDialogues = () => {
+        stopAudio();
+        const frameData = frames[currentFrameIdx];
+        if (frameData?.dialogueAudio?.length) {
+          playAudioSequence(frameData.dialogueAudio, null);
+        }
+      };
+      btn.addEventListener('click', playDialogues);
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); playDialogues(); }, {passive: false});
     });
 
     // Video play/pause toggle
