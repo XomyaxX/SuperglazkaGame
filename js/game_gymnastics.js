@@ -203,7 +203,13 @@ const GymGame = (function(){
       isCharging = true;
       laserCharge = 0;
       chargeStartTime = Date.now();
-      updateUI();
+      
+      // Обновляем кнопку напрямую, не пересоздавая (иначе теряется touchend)
+      const btnEl = getEl('laser-btn');
+      if (btnEl) {
+        btnEl.classList.add('charging');
+        btnEl.innerHTML = '<span>🔥 ЗАРЯЖАЮ...</span>';
+      }
       
       const chargeLoop = () => {
         if (!isCharging) return;
@@ -369,6 +375,7 @@ const GymGame = (function(){
     moveAimTarget(target);
     
     const handleMove = (e) => {
+      if (e.type.startsWith('touch')) e.preventDefault();
       const rect = area.getBoundingClientRect();
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
@@ -382,6 +389,8 @@ const GymGame = (function(){
     
     area.addEventListener('mousemove', handleMove);
     area.addEventListener('touchmove', handleMove, {passive: false});
+    area.addEventListener('mousedown', handleMove);
+    area.addEventListener('touchstart', handleMove, {passive: false});
     
     startAimLoop(target);
   }
@@ -867,7 +876,16 @@ const GymGame = (function(){
     // Init
     initVideo();
     updateBossHp();
-    updateUI();
+    // Небольшая задержка, чтобы браузер успел выполнить layout
+    setTimeout(() => {
+      updateUI();
+      
+      // Быстрый отклик на кнопку "Пропустить" с телефона
+      const skipBtn = document.querySelector('#game-overlay-gym .skip-btn');
+      if (skipBtn) {
+        skipBtn.addEventListener('touchstart', (e) => { e.preventDefault(); closeGym(false); }, {passive: false});
+      }
+    }, 50);
   };
   
   window.closeGym = function(skip) {

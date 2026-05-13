@@ -706,10 +706,12 @@ const App = (function() {
     if (btn) {
       const newBtn = btn.cloneNode(true);
       btn.parentNode.replaceChild(newBtn, btn);
-      newBtn.addEventListener('click', () => {
+      const start = () => {
         overlay.classList.remove('visible');
         if (onStart) setTimeout(onStart, 300);
-      });
+      };
+      newBtn.addEventListener('click', start);
+      newBtn.addEventListener('touchstart', (e) => { e.preventDefault(); start(); }, {passive: false});
     }
   }
 
@@ -780,7 +782,7 @@ const App = (function() {
   function bindFrameEvents() {
     // Audio toggle
     document.querySelectorAll('.audio-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+      const toggle = () => {
         if (isPlayingAudio) {
           stopAudio();
         } else {
@@ -790,42 +792,49 @@ const App = (function() {
           if (frameData?.dialogueAudio?.length) allAudio.push(...frameData.dialogueAudio);
           if (allAudio.length) playAudioSequence(allAudio, null);
         }
-      });
+      };
+      btn.addEventListener('click', toggle);
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); toggle(); }, {passive: false});
     });
 
     // Video play/pause toggle
     document.querySelectorAll('.video-layer video').forEach(video => {
-      video.addEventListener('click', () => {
+      const toggle = () => {
         if (video.paused) {
           video.play().catch(() => {});
         } else {
           video.pause();
         }
-      });
+      };
+      video.addEventListener('click', toggle);
+      video.addEventListener('touchstart', (e) => { e.preventDefault(); toggle(); }, {passive: false});
     });
 
     // Transition popup buttons
     document.querySelectorAll('.transition-popup-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        hideTransitionPopup(currentFrameIdx);
-        nextFrame();
-      });
+      const go = () => { hideTransitionPopup(currentFrameIdx); nextFrame(); };
+      btn.addEventListener('click', go);
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); go(); }, {passive: false});
     });
 
     // Navigation buttons
     document.querySelectorAll('.nav-btn.nav-next').forEach(btn => {
-      btn.addEventListener('click', () => {
+      const go = () => {
         const frameData = frames[currentFrameIdx];
         if (frameData && frameData.game) {
           startGame(frameData.game);
         } else {
           nextFrame();
         }
-      });
+      };
+      btn.addEventListener('click', go);
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); go(); }, {passive: false});
     });
 
     document.querySelectorAll('.nav-btn.nav-prev').forEach(btn => {
-      btn.addEventListener('click', () => prevFrame());
+      const go = () => prevFrame();
+      btn.addEventListener('click', go);
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); go(); }, {passive: false});
     });
   }
 

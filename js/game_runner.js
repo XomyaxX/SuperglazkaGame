@@ -68,17 +68,20 @@ const RunnerGame = (function(){
     spriteRun.onload = onSpriteLoad;
     spriteJump.onload = onSpriteLoad;
     
-    canvas.addEventListener('pointerdown', onJump);
+    // Оставляем touchstart для мобильных и click для десктопа.
+    // pointerdown убран, чтобы избежать дублирования с touchstart на мобильных.
     canvas.addEventListener('touchstart', onJump, {passive: false});
     canvas.addEventListener('click', onJump);
     
     const overlay = document.getElementById('game-overlay-runner');
     if (overlay) {
-      overlay.addEventListener('pointerdown', function(e) {
+      const overlayJump = (e) => {
         if (e.target === overlay || e.target.classList.contains('runner-controls')) {
           onJump(e);
         }
-      });
+      };
+      overlay.addEventListener('mousedown', overlayJump);
+      overlay.addEventListener('touchstart', overlayJump, {passive: false});
     }
     
     window.addEventListener('resize', resize);
@@ -696,7 +699,16 @@ const RunnerGame = (function(){
     const overlay = document.getElementById('game-overlay-runner');
     if (overlay) overlay.classList.add('visible');
     if (!canvas) init();
-    reset();
+    // Небольшая задержка, чтобы браузер успел выполнить layout
+    setTimeout(() => {
+      reset();
+      
+      // Быстрый отклик на кнопку "Пропустить" с телефона
+      const skipBtn = document.querySelector('#game-overlay-runner .runner-controls button');
+      if (skipBtn) {
+        skipBtn.addEventListener('touchstart', (e) => { e.preventDefault(); closeRunner(false); }, {passive: false});
+      }
+    }, 50);
   };
 
   window.closeRunner = function(skip){

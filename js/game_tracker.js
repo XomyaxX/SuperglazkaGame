@@ -44,14 +44,17 @@ const TrackerGame = (function() {
 
   function startGame() {
     if (!canvas) init();
-    phase = 0;
-    state = 'pause';
-    pauseTime = 0;
-    phaseTime = 0;
     document.getElementById('game-overlay-tracker').classList.add('visible');
-    lastTime = performance.now();
-    updateUI();
-    raf = requestAnimationFrame(loop);
+    // Небольшая задержка, чтобы браузер успел выполнить layout
+    setTimeout(() => {
+      phase = 0;
+      state = 'pause';
+      pauseTime = 0;
+      phaseTime = 0;
+      lastTime = performance.now();
+      updateUI();
+      raf = requestAnimationFrame(loop);
+    }, 50);
   }
 
   function startPhase() {

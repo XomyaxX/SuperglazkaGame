@@ -31,11 +31,10 @@ const BlinkGame = (function() {
     resize();
     window.addEventListener('resize', resize);
 
-    canvas.addEventListener('pointerdown', onPointerDown);
-    canvas.addEventListener('pointerup', onPointerUp);
+    canvas.addEventListener('mousedown', onPointerDown);
+    canvas.addEventListener('mouseup', onPointerUp);
     canvas.addEventListener('touchstart', onPointerDown, { passive: false });
     canvas.addEventListener('touchend', onPointerUp);
-    canvas.addEventListener('click', onClick);
 
     return true;
   }
@@ -52,6 +51,18 @@ const BlinkGame = (function() {
     e.preventDefault();
     if (state === 'squeeze') {
       isHolding = true;
+    } else if (state === 'blink') {
+      clicks++;
+      triggerBlinkAnim();
+      if (clicks >= TARGET_CLICKS) {
+        nextRound();
+      }
+    } else if (state === 'wide') {
+      if (targetPos >= ROUND3_ZONE.min && targetPos <= ROUND3_ZONE.max) {
+        nextRound();
+      } else {
+        setHint('Промах! Попробуй ещё раз');
+      }
     }
   }
 
@@ -87,11 +98,14 @@ const BlinkGame = (function() {
 
   function startGame() {
     if (!canvas) init();
-    round = 1;
-    startRound();
     document.getElementById('game-overlay-blink').classList.add('visible');
-    lastTime = performance.now();
-    raf = requestAnimationFrame(loop);
+    // Небольшая задержка, чтобы браузер успел выполнить layout
+    setTimeout(() => {
+      round = 1;
+      startRound();
+      lastTime = performance.now();
+      raf = requestAnimationFrame(loop);
+    }, 50);
   }
 
   function startRound() {
