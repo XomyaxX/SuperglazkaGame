@@ -937,6 +937,30 @@ body {
   display: none !important;
 }
 
+/* Swipe hint */
+.swipe-hint {
+  position: absolute;
+  bottom: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 19;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+  background: rgba(10, 6, 24, 0.6);
+  backdrop-filter: blur(8px);
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 1s var(--ease-smooth);
+  white-space: nowrap;
+}
+.swipe-hint.hidden {
+  opacity: 0;
+}
+
 /* Bottom navigation bar */
 .frame-nav-bar {
   position: absolute;
@@ -1159,6 +1183,11 @@ body {
     font-size: 13px;
     padding: 8px 12px;
     bottom: 84px;
+  }
+  .swipe-hint {
+    bottom: 54px;
+    font-size: 11px;
+    padding: 4px 12px;
   }
   .narrator-toggle {
     bottom: 54px;

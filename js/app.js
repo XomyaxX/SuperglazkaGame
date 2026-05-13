@@ -351,6 +351,7 @@ const App = (function() {
   let currentPhase = 'narration';
   let typeWriterInterval = null;
   let dialogueTimeouts = [];
+  let swipeHintTimeout = null;
 
   // ═══════════════════════════════════════════════════════════
   // DOM REFS
@@ -406,6 +407,8 @@ const App = (function() {
           <span class="nt-icon">−</span>
           <span class="nt-label">Субтитры</span>
         </button>
+
+        <div class="swipe-hint">👆 Листай вверх</div>
 
         <div class="frame-nav-bar">
           <div class="nav-counter">Кадр ${idx + 1} из ${total}</div>
@@ -658,6 +661,16 @@ const App = (function() {
       const ntIcon = narratorToggle.querySelector('.nt-icon');
       if (ntIcon) ntIcon.textContent = '−';
       narratorToggle.title = 'Свернуть';
+    }
+
+    // Reset swipe hint
+    const swipeHint = frame.querySelector('.swipe-hint');
+    if (swipeHint) {
+      swipeHint.classList.remove('hidden');
+      if (swipeHintTimeout) clearTimeout(swipeHintTimeout);
+      swipeHintTimeout = setTimeout(() => {
+        if (swipeHint) swipeHint.classList.add('hidden');
+      }, 3000);
     }
 
     // Auto-play audio narration + dialogue sequence
